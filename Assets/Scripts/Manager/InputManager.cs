@@ -8,12 +8,18 @@ public class InputManager : MonoBehaviour
 
     private InputAction useAction;
     public static bool usePressed;
-    public static bool useReleased;
-    public static bool useHeld;
+
+    private InputAction detectAction;
+    public static bool detectPressed;
 
     public static Vector2 mouseScreenPos;  // 스크린 좌표 (픽셀)
     public static Vector2 mouseWorldPos;   // 월드 좌표 (씬 내 위치)
 
+    public static bool getPressed;
+    private InputAction getAction;
+
+    public static bool dropPressed;
+    private InputAction dropAction;
 
     private Camera mainCamera;
 
@@ -24,6 +30,9 @@ public class InputManager : MonoBehaviour
         moveAction = playerInput.actions["Move"];
 
         useAction = playerInput.actions["Use"];
+        getAction = playerInput.actions["Get"];
+        dropAction = playerInput.actions["Drop"];
+        detectAction = playerInput.actions["Detect"];
 
     }
 
@@ -32,10 +41,13 @@ public class InputManager : MonoBehaviour
         moveDir = moveAction.ReadValue<Vector2>();
 
         usePressed = useAction.WasPressedThisFrame();
-        useReleased = useAction.WasReleasedThisFrame();
-        useHeld = useAction.IsPressed();
+       
 
         mouseScreenPos = Mouse.current.position.ReadValue();
         mouseWorldPos = mainCamera.ScreenToWorldPoint(mouseScreenPos);
+
+        getPressed = getAction.WasPressedThisFrame();
+        dropPressed = dropAction.WasPressedThisFrame();
+        detectPressed = detectAction.IsPressed();
     }
 }

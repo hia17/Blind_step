@@ -16,10 +16,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         GetInput();
-        if(InputManager.usePressed)
-        {
-            Debug.Log("Use Pressed");
-        }
+        
     }
     void FixedUpdate()
     {

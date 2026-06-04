@@ -4,9 +4,10 @@ using System.Collections.Generic;
 
 public class RayEmit : MonoBehaviour
 {
-    [Header("Ray Angles")]
+    [Header("Ray Angles & Ray Counts")]
     [Tooltip("마우스 방향 기준 양쪽으로 퍼지는 각도 (총 범위 = halfAngle * 2)")]
     [SerializeField] private float halfAngle = 15f;
+    [SerializeField] private float rayCount = 3; 
 
     [Header("Ray Distance & Speed")]
     [Tooltip("레이가 뻗어나가는 최대 거리")]
@@ -49,7 +50,7 @@ public class RayEmit : MonoBehaviour
 
     private void Update()
     {
-        if (InputManager.usePressed)
+        if (InputManager.detectPressed)
             TriggerEcho();
     }
 
@@ -71,13 +72,23 @@ public class RayEmit : MonoBehaviour
         Vector2 toMouse = (mouseWorld - fixedOrigin).normalized;
         float baseAngle = Mathf.Atan2(toMouse.y, toMouse.x) * Mathf.Rad2Deg;
 
-        float[] angles = new float[]
-        {
-            baseAngle - halfAngle,
-            baseAngle,
-            baseAngle + halfAngle
-        };
+        //float[] angles = new float[]
+        //{
+        //    baseAngle - halfAngle,
+        //    baseAngle,
+        //    baseAngle + halfAngle
+        //};
 
+        float[] angles = new float[(int)rayCount];
+
+        for (int i = 0; i < rayCount; i++)
+        {
+            float t = (rayCount == 1) ? 0.5f : (float)i / (rayCount - 1);
+
+            float angleOffset = Mathf.Lerp(-halfAngle, halfAngle, t);
+
+            angles[i] = baseAngle + angleOffset;
+        }
         // 각 레이 방향 벡터 미리 계산
         Vector2[] forwards = new Vector2[angles.Length];
         Vector2[] perps = new Vector2[angles.Length];
@@ -121,6 +132,11 @@ public class RayEmit : MonoBehaviour
                     {
                         stopped[i] = true;
                         stoppedAt[i] = Vector2.Distance(fixedOrigin, hit.point);
+
+                        // 충돌 오브젝트에 EchoHitOutline이 있으면 외곽선 표시 요청
+                        EchoHitOutline outline = hit.collider.GetComponent<EchoHitOutline>();
+                        if (outline != null)
+                            outline.OnRayHit(hit.point, hit.normal);
                     }
                 }
 
