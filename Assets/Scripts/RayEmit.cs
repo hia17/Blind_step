@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class EchoEmit : MonoBehaviour
+public class RayEmit : MonoBehaviour
 {
     [Header("Ray Angles")]
     [Tooltip("마우스 방향 기준 양쪽으로 퍼지는 각도 (총 범위 = halfAngle * 2)")]
@@ -14,24 +14,32 @@ public class EchoEmit : MonoBehaviour
     [Tooltip("레이가 뻗어나가는 속도 (유닛/초)")]
     [SerializeField] private float raySpeed = 15f;
 
+    [Header("Wave Shape")]
+    [Tooltip("사인파 높이 (위아래 진폭)")]
+    [SerializeField] private float waveHeight = 0.15f;
+    [Tooltip("사인파 한 주기의 길이 (짧을수록 촘촘)")]
+    [SerializeField] private float waveLength = 0.6f;
+    [Tooltip("포인트 밀도 (높을수록 부드러움)")]
+    [SerializeField] private int pointsPerUnit = 20;
+
+    [Header("Tail")]
+    [Tooltip("꼬리 길이 (유닛). 앞이 이만큼 앞서나가면 뒤가 잘림)")]
+    [SerializeField] private float tailLength = 3f;
+
     [Header("Visual")]
     [Tooltip("레이 선의 두께")]
-    [SerializeField] private float lineWidth = 0.05f;
+    [SerializeField] private float lineWidth = 0.04f;
     [Tooltip("레이 선의 색상")]
     [SerializeField] private Color rayColor = Color.white;
-    [Tooltip("최대 거리 도달 후 사라지기까지의 시간")]
-    [SerializeField] private float fadeDuration = 0.3f;
+    [Tooltip("최대 거리 도달 후 전체 사라지기까지의 시간")]
+    [SerializeField] private float fadeDuration = 0.4f;
 
     [Header("Detect")]
     [Tooltip("레이에 감지될 레이어")]
     [SerializeField] private LayerMask detectLayer;
 
-    // 현재 실행 중인 레이 코루틴
     private Coroutine echoCoroutine;
-
-    // 활성 LineRenderer 목록
     private List<LineRenderer> activeLines = new List<LineRenderer>();
-
     private Camera mainCamera;
 
     private void Awake()
@@ -42,32 +50,27 @@ public class EchoEmit : MonoBehaviour
     private void Update()
     {
         if (InputManager.usePressed)
-        {
             TriggerEcho();
-        }
     }
 
     private void TriggerEcho()
     {
-        // 이전 에코가 실행 중이면 즉시 중단하고 초기화
         if (echoCoroutine != null)
         {
-            StopCoroutine(echoCoroutine);
-            ClearAllLines();
+            return;
         }
-
         echoCoroutine = StartCoroutine(FireRays());
     }
 
     private IEnumerator FireRays()
     {
-        // 마우스 방향 계산
+        // 발사 시점 origin 고정 (캐릭터가 움직여도 이 값은 변하지 않음)
+        Vector2 fixedOrigin = transform.position;
+
         Vector2 mouseWorld = InputManager.mouseWorldPos;
-        Vector2 origin = transform.position;
-        Vector2 toMouse = (mouseWorld - origin).normalized;
+        Vector2 toMouse = (mouseWorld - fixedOrigin).normalized;
         float baseAngle = Mathf.Atan2(toMouse.y, toMouse.x) * Mathf.Rad2Deg;
 
-        // 3개의 레이 각도: -halfAngle, 0, +halfAngle
         float[] angles = new float[]
         {
             baseAngle - halfAngle,
@@ -75,75 +78,161 @@ public class EchoEmit : MonoBehaviour
             baseAngle + halfAngle
         };
 
-        // 각 레이마다 LineRenderer 생성
+        // 각 레이 방향 벡터 미리 계산
+        Vector2[] forwards = new Vector2[angles.Length];
+        Vector2[] perps = new Vector2[angles.Length];
+        for (int i = 0; i < angles.Length; i++)
+        {
+            float rad = angles[i] * Mathf.Deg2Rad;
+            forwards[i] = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+            perps[i] = new Vector2(-Mathf.Sin(rad), Mathf.Cos(rad));
+        }
+
+        // LineRenderer 생성
         LineRenderer[] lines = new LineRenderer[angles.Length];
         for (int i = 0; i < angles.Length; i++)
         {
             lines[i] = CreateLineRenderer();
-            lines[i].positionCount = 2;
-            lines[i].SetPosition(0, new Vector3(origin.x, origin.y, -1f));
-            lines[i].SetPosition(1, new Vector3(origin.x, origin.y, -1f)); // 아직 길이 0
             activeLines.Add(lines[i]);
         }
 
-        // 레이를 속도에 맞춰 뻗어나가게 함
-        float currentDistance = 0f;
-        bool[] stopped = new bool[angles.Length]; // 각 레이가 벽에 막혔는지
+        float[] stoppedAt = new float[angles.Length];
+        bool[] stopped = new bool[angles.Length];
+        for (int i = 0; i < stoppedAt.Length; i++) stoppedAt[i] = maxDistance;
 
-        while (currentDistance < maxDistance)
+        // --- 뻗어나가는 단계 ---
+        float headDist = 0f; // 앞부분(head)이 나간 거리
+
+        while (headDist < maxDistance)
         {
-            currentDistance += raySpeed * Time.deltaTime;
-            currentDistance = Mathf.Min(currentDistance, maxDistance);
+            headDist += raySpeed * Time.deltaTime;
+            headDist = Mathf.Min(headDist, maxDistance);
+
+            // 꼬리 시작 거리 (headDist - tailLength, 0 이상)
+            float tailStart = Mathf.Max(0f, headDist - tailLength);
 
             for (int i = 0; i < angles.Length; i++)
             {
-                if (stopped[i]) continue;
-
-                float rad = angles[i] * Mathf.Deg2Rad;
-                Vector2 dir = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
-
-                // 현재 거리까지 레이캐스트
-                RaycastHit2D hit = Physics2D.Raycast(origin, dir, currentDistance, detectLayer);
-
-                Vector2 endPoint;
-                if (hit.collider != null)
+                // 벽 감지
+                if (!stopped[i])
                 {
-                    endPoint = hit.point;
-                    stopped[i] = true; // 벽에 막히면 해당 레이 정지
-                }
-                else
-                {
-                    endPoint = origin + dir * currentDistance;
+                    RaycastHit2D hit = Physics2D.Raycast(fixedOrigin, forwards[i], headDist, detectLayer);
+                    if (hit.collider != null)
+                    {
+                        stopped[i] = true;
+                        stoppedAt[i] = Vector2.Distance(fixedOrigin, hit.point);
+                    }
                 }
 
-                lines[i].SetPosition(1, new Vector3(endPoint.x, endPoint.y, -1f));
+                float drawHead = stopped[i] ? stoppedAt[i] : headDist;
+                float drawTail = stopped[i] ? Mathf.Min(tailStart, stoppedAt[i]) : tailStart;
+
+                DrawWaveSegment(lines[i], fixedOrigin, forwards[i], perps[i], drawTail, drawHead, 1f);
             }
 
             yield return null;
         }
 
-        // 최대 거리 도달 후 페이드아웃
-        yield return StartCoroutine(FadeOutLines(lines, fadeDuration));
+        // --- 꼬리가 끝까지 밀려나가는 단계 ---
+        float tailDist = Mathf.Max(0f, maxDistance - tailLength);
+
+        while (tailDist < maxDistance)
+        {
+            tailDist += raySpeed * Time.deltaTime;
+            tailDist = Mathf.Min(tailDist, maxDistance);
+
+            for (int i = 0; i < angles.Length; i++)
+            {
+                float drawTail = Mathf.Min(tailDist, stoppedAt[i]);
+                float drawHead = stoppedAt[i];
+
+                // 꼬리가 head를 넘으면 선 숨김
+                if (drawTail >= drawHead)
+                {
+                    lines[i].positionCount = 0;
+                    continue;
+                }
+
+                DrawWaveSegment(lines[i], fixedOrigin, forwards[i], perps[i], drawTail, drawHead, 1f);
+            }
+
+            yield return null;
+        }
+
+        // --- 전체 페이드아웃 (이미 선이 사라진 경우 즉시 종료) ---
+        bool anyVisible = false;
+        foreach (var lr in lines)
+            if (lr != null && lr.positionCount > 0) anyVisible = true;
+
+        if (anyVisible)
+            yield return StartCoroutine(FadeOutAll(lines, forwards, perps, fixedOrigin, stoppedAt, fadeDuration));
 
         ClearAllLines();
         echoCoroutine = null;
     }
 
-    private IEnumerator FadeOutLines(LineRenderer[] lines, float duration)
+    // tailDist ~ headDist 구간만 사인파로 그림
+    private void DrawWaveSegment(
+        LineRenderer lr,
+        Vector2 origin, Vector2 forward, Vector2 perp,
+        float tailDist, float headDist,
+        float globalAlpha)
+    {
+        float segLen = headDist - tailDist;
+        if (segLen <= 0f)
+        {
+            lr.positionCount = 0;
+            return;
+        }
+
+        int totalPoints = Mathf.Max(2, Mathf.CeilToInt(segLen * pointsPerUnit));
+        lr.positionCount = totalPoints;
+
+        for (int p = 0; p < totalPoints; p++)
+        {
+            float t = (float)p / (totalPoints - 1);
+            float dist = Mathf.Lerp(tailDist, headDist, t);
+
+            // 사인파 offset
+            float offset = Mathf.Sin((dist / waveLength) * Mathf.PI * 2f) * waveHeight;
+
+            Vector2 pos = origin + forward * dist + perp * offset;
+            lr.SetPosition(p, new Vector3(pos.x, pos.y, -1f));
+        }
+
+        // 꼬리(t=0) 투명 → 머리(t=1) 불투명 그라디언트
+        Gradient gradient = new Gradient();
+        gradient.SetKeys(
+            new GradientColorKey[] {
+                new GradientColorKey(rayColor, 0f),
+                new GradientColorKey(rayColor, 1f)
+            },
+            new GradientAlphaKey[] {
+                new GradientAlphaKey(0f,           0f),
+                new GradientAlphaKey(globalAlpha,  0.3f),
+                new GradientAlphaKey(globalAlpha,  1f)
+            }
+        );
+        lr.colorGradient = gradient;
+    }
+
+    private IEnumerator FadeOutAll(
+        LineRenderer[] lines,
+        Vector2[] forwards, Vector2[] perps,
+        Vector2 fixedOrigin,
+        float[] stoppedAt,
+        float duration)
     {
         float elapsed = 0f;
-
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
             float alpha = Mathf.Lerp(1f, 0f, elapsed / duration);
-            Color c = new Color(rayColor.r, rayColor.g, rayColor.b, alpha);
 
-            foreach (var lr in lines)
+            for (int i = 0; i < lines.Length; i++)
             {
-                if (lr == null) continue;
-                lr.startColor = c;
-                lr.endColor = c;
+                if (lines[i] == null) continue;
+                DrawWaveSegment(lines[i], fixedOrigin, forwards[i], perps[i], 0f, stoppedAt[i], alpha);
             }
 
             yield return null;
@@ -157,8 +246,6 @@ public class EchoEmit : MonoBehaviour
 
         LineRenderer lr = obj.AddComponent<LineRenderer>();
         lr.material = new Material(Shader.Find("Sprites/Default"));
-        lr.startColor = rayColor;
-        lr.endColor = rayColor;
         lr.startWidth = lineWidth;
         lr.endWidth = lineWidth;
         lr.useWorldSpace = true;
@@ -170,10 +257,7 @@ public class EchoEmit : MonoBehaviour
     private void ClearAllLines()
     {
         foreach (var lr in activeLines)
-        {
-            if (lr != null)
-                Destroy(lr.gameObject);
-        }
+            if (lr != null) Destroy(lr.gameObject);
         activeLines.Clear();
     }
 
@@ -184,7 +268,7 @@ public class EchoEmit : MonoBehaviour
 
         Vector2 mouseWorld = InputManager.mouseWorldPos;
         Vector2 origin = transform.position;
-        Vector2 toMouse = (mouseWorld - origin);
+        Vector2 toMouse = mouseWorld - origin;
         if (toMouse == Vector2.zero) return;
 
         float baseAngle = Mathf.Atan2(toMouse.y, toMouse.x) * Mathf.Rad2Deg;
@@ -199,8 +283,5 @@ public class EchoEmit : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
-    {
-        ClearAllLines();
-    }
+    private void OnDestroy() => ClearAllLines();
 }
