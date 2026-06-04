@@ -714,6 +714,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 3
+  leftFootPrefab: {fileID: 7087256900965090289, guid: 2197961bbe18fee4b96034630907b38a, type: 3}
+  rightFootPrefab: {fileID: 1463688228026532544, guid: beaedf7dccbe7c44498dbf426ffdde2f, type: 3}
+  stepDistance: 1
+  stepWidth: 0.2
+  rotationSpeed: 20
 --- !u!212 &1318922260
 SpriteRenderer:
   serializedVersion: 2
@@ -763,7 +768,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 3
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a94fb11ad785fee4b9c1aa7526cc660e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
