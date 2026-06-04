@@ -86,28 +86,16 @@ public class EchoHitOutline : MonoBehaviour
     /// </summary>
     private Vector3[] SampleOutlinePoints(Collider2D col, Vector2 hitPoint, Vector2 tangent, float length, int count)
     {
-        // 외곽선 포인트를 월드 좌표로 수집
         List<Vector2> boundary = GetBoundaryPoints(col);
 
         if (boundary == null || boundary.Count < 2)
-        {
-            // 폴백: 단순히 tangent 방향으로 직선
             return FallbackLine(hitPoint, tangent, length, count);
-        }
 
-        // boundary 위에서 hitPoint에 가장 가까운 점(파라미터 t)을 찾기
-        float totalLen = 0f;
-        List<float> cumulLen = new List<float>();
-        cumulLen.Add(0f);
-        for (int i = 1; i < boundary.Count; i++)
-        {
-            totalLen += Vector2.Distance(boundary[i - 1], boundary[i]);
-            cumulLen.Add(totalLen);
-        }
-
-        // hitPoint에서 가장 가까운 boundary 위의 파라미터(거리) 찾기
+        // hitPoint가 속한 세그먼트 찾기
+        int bestSeg = 0;
         float bestDist = float.MaxValue;
-        float bestT = 0f;
+        Vector2 bestClosest = hitPoint;
+
         for (int i = 0; i < boundary.Count - 1; i++)
         {
             Vector2 closest = ClosestPointOnSegment(boundary[i], boundary[i + 1], hitPoint);
@@ -115,23 +103,25 @@ public class EchoHitOutline : MonoBehaviour
             if (d < bestDist)
             {
                 bestDist = d;
-                float segProgress = Vector2.Distance(boundary[i], closest);
-                bestT = cumulLen[i] + segProgress;
+                bestSeg = i;
+                bestClosest = closest;
             }
         }
 
-        // bestT 기준 ±halfLen 구간 샘플링
-        float halfLen = length * 0.5f;
-        float startT = bestT - halfLen;
-        float endT = bestT + halfLen;
+        // 해당 세그먼트의 방향벡터
+        Vector2 segDir = (boundary[bestSeg + 1] - boundary[bestSeg]).normalized;
+        float segLen = Vector2.Distance(boundary[bestSeg], boundary[bestSeg + 1]);
+
+        // bestClosest 기준으로 세그먼트 안에서만 halfLen 범위 클램프
+        float hitT = Vector2.Dot(bestClosest - boundary[bestSeg], segDir);
+        float startT = Mathf.Clamp(hitT - length * 0.5f, 0f, segLen);
+        float endT = Mathf.Clamp(hitT + length * 0.5f, 0f, segLen);
 
         Vector3[] result = new Vector3[count];
         for (int i = 0; i < count; i++)
         {
             float t = Mathf.Lerp(startT, endT, (float)i / (count - 1));
-            // boundary는 닫힌 루프라고 가정 → 모듈러 처리
-            t = ((t % totalLen) + totalLen) % totalLen;
-            Vector2 pos = SampleAtDistance(boundary, cumulLen, t);
+            Vector2 pos = boundary[bestSeg] + segDir * t;
             result[i] = new Vector3(pos.x, pos.y, -1f);
         }
 
@@ -140,6 +130,7 @@ public class EchoHitOutline : MonoBehaviour
 
     private List<Vector2> GetBoundaryPoints(Collider2D col)
     {
+        Debug.Log($"Collider type: {col.GetType().Name}"); // 추가
         List<Vector2> pts = new List<Vector2>();
 
         if (col is PolygonCollider2D poly)
@@ -189,8 +180,10 @@ public class EchoHitOutline : MonoBehaviour
             {
                 Vector2[] path = new Vector2[comp.GetPathPointCount(pi)];
                 comp.GetPath(pi, path);
-                foreach (var p in path) pts.Add(p); // CompositeCollider2D는 이미 월드 좌표
-                if (path.Length > 0) pts.Add(path[0]);
+                foreach (var p in path)
+                    pts.Add(col.transform.TransformPoint(p));
+                if (path.Length > 0)
+                    pts.Add(col.transform.TransformPoint(path[0]));
             }
         }
         else
