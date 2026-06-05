@@ -50,32 +50,26 @@ public class Inventory : MonoBehaviour
         if (index < 0) return;
         ItemData data = items[index];
 
-        if(data.itemType == ItemData.ItemType.Food)
+        if (data.itemType == ItemData.ItemType.Food)
         {
-            // 음식 아이템 사용 시 체력 회복 등 효과 적용
             Debug.Log($"Used {data.itemName}, it was food!");
-            // 예시: PlayerHealth.Instance.Heal(20);
+            PlayerHealth.Instance.Heal(20); // 좋은 음식이면 체력 20 회복
         }
-        else if(data.itemType == ItemData.ItemType.badFood)
+        else if (data.itemType == ItemData.ItemType.badFood)
         {
-            // 나쁜 음식 아이템 사용 시 체력 감소 등 효과 적용
             Debug.Log($"Used {data.itemName}, it was bad food!");
-            // 예시: PlayerHealth.Instance.TakeDamage(10);
+            PlayerHealth.Instance.TakeDamage(10); // 상한 음식이면 체력 10 깎임
         }
-        else if(data.itemType == ItemData.ItemType.stick)
+        else if (data.itemType == ItemData.ItemType.stick)
         {
-            // 막대기 아이템 사용 시 공격력 증가 등 효과 적용
             Debug.Log($"Used {data.itemName}, it was a stick!");
-            // 예시: PlayerAttack.Instance.IncreaseDamage(5, duration: 10f);
         }
-        else if(data.itemType == ItemData.ItemType.key)
+        else if (data.itemType == ItemData.ItemType.key)
         {
-            // 열쇠 아이템 사용 시 문 열기 등 효과 적용
             Debug.Log($"Used {data.itemName}, it was a key!");
-            // 예시: Door.Instance.Unlock();
         }
+
         items.RemoveAt(index);
         OnInventoryChanged?.Invoke();
-
     }
 }
