@@ -1,17 +1,12 @@
 using UnityEngine;
 
-/// <summary>
-/// 플레이어 오브젝트에 부착.
-/// 근처 ItemObject 감지 → canGet UI 표시 → Get 키 입력 시 획득.
-/// </summary>
 public class ItemPickupDetector : MonoBehaviour
 {
-    [Header("감지 범위")]
+    [Header("감지 설정")]
     [SerializeField] private float pickupRadius = 1.5f;
-    [SerializeField] private LayerMask itemLayer;          // 아이템이 있는 레이어
+    [SerializeField] private LayerMask itemLayer;
 
-    [Header("canGet UI (선택)")]
-    [Tooltip("'F to Pick Up' 같은 안내 UI 오브젝트. 없으면 무시됨.")]
+    [Header("canGet UI")]
     [SerializeField] private GameObject canGetUI;
 
     private ItemObject nearestItem;
@@ -24,7 +19,6 @@ public class ItemPickupDetector : MonoBehaviour
 
     private void FindNearestItem()
     {
-        // 범위 내 모든 콜라이더 검색
         Collider2D[] hits = Physics2D.OverlapCircleAll(transform.position, pickupRadius, itemLayer);
 
         ItemObject closest = null;
@@ -33,9 +27,8 @@ public class ItemPickupDetector : MonoBehaviour
         foreach (var col in hits)
         {
             ItemObject item = col.GetComponent<ItemObject>();
-            
             if (item == null) continue;
-          
+
             float dist = Vector2.Distance(transform.position, col.transform.position);
             if (dist < minDist)
             {
@@ -44,36 +37,31 @@ public class ItemPickupDetector : MonoBehaviour
             }
         }
 
-        // 가장 가까운 아이템 교체
         nearestItem = closest;
+        canGetUI.SetActive(nearestItem != null);
 
-        // canGet UI 표시 여부
-        if (canGetUI != null)
-            canGetUI.SetActive(nearestItem != null);
+        if (nearestItem != null)
+            MoveUIToItem(nearestItem.transform.position);
+    }
+
+    private void MoveUIToItem(Vector3 worldPos)
+    {
+        canGetUI.transform.position = worldPos + new Vector3(0, 1.2f, 0);
     }
 
     private void HandleInput()
     {
-        // InputManager.usePressed 를 Get 키로 활용 (기존 구조 재사용)
         if (InputManager.getPressed && nearestItem != null)
         {
             nearestItem.PickUp();
             nearestItem = null;
-
-            if (canGetUI != null)
-                canGetUI.SetActive(false);
+            canGetUI.SetActive(false);
         }
 
         if (InputManager.dropPressed)
-        {
-            Inventory.Instance.DropItem(0, transform.position); // 예시로 첫 번째 아이템 드롭
-        }
-        if (InputManager.usePressed)
-        {
-            Inventory.Instance.UseItem(0); // 예시로 첫 번째 아이템 사용
-        }
-    }
+            Inventory.Instance.DropItem(0, transform.position);
 
-  
-    
+        if (InputManager.usePressed)
+            Inventory.Instance.UseItem(0);
+    }
 }
