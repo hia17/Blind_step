@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: ac166cedbf7c3ae4f9d8c72567026046
+guid: 16fe2dab852b5454c8fec7664be83bb8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8439167816842677593
-    second: glass1_0
+      213: -485646294723371877
+    second: painkiller_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: glass1_0
+      name: painkiller_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 2
-        width: 32
-        height: 28
+        x: 13
+        y: 6
+        width: 38
+        height: 52
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 95d01d2ba62fd1570800000000000000
-      internalID: 8439167816842677593
+      spriteID: b9c578c9443a249f0800000000000000
+      internalID: -485646294723371877
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      glass1_0: 8439167816842677593
+      painkiller_0: -485646294723371877
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
