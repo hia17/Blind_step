@@ -46,7 +46,7 @@ public class EchoHitOutline : MonoBehaviour
     public void OnRayHit(Vector2 hitPoint, Vector2 hitNormal)
     {
         Coroutine c = StartCoroutine(ShowOutline(hitPoint, hitNormal));
-        activeCoroutines.Add(c);
+        //activeCoroutines.Add(c);
     }
 
     private IEnumerator ShowOutline(Vector2 hitPoint, Vector2 hitNormal)
@@ -170,59 +170,159 @@ public class EchoHitOutline : MonoBehaviour
     //    return result;
     //}
     #endregion
-    private Vector3[] SampleOutlinePoints(Collider2D col, Vector2 hitPoint, Vector2 tangent, float length, int count)
+
+    private List<List<Vector2>> GetCompositePaths(CompositeCollider2D comp)
     {
-        List<Vector2> boundary = GetBoundaryPoints(col);
+        List<List<Vector2>> paths = new();
 
-        if (boundary == null || boundary.Count < 2)
-            return FallbackLine(hitPoint, tangent, length, count);
+        for (int pi = 0; pi < comp.pathCount; pi++)
+        {
+            Vector2[] path = new Vector2[comp.GetPathPointCount(pi)];
+            comp.GetPath(pi, path);
 
-        // 전체 누적 거리 계산
-        List<float> cumul = new List<float>();
+            List<Vector2> worldPath = new();
+
+            foreach (var p in path)
+                worldPath.Add(comp.transform.TransformPoint(p));
+
+            if (worldPath.Count > 0)
+                worldPath.Add(worldPath[0]);
+
+            paths.Add(worldPath);
+        }
+
+        return paths;
+    }
+    private Vector3[] SampleOutlineFromBoundary(
+    List<Vector2> boundary,
+    Vector2 hitPoint,
+    float length,
+    int count)
+    {
+        List<float> cumul = new();
         cumul.Add(0f);
+
         for (int i = 1; i < boundary.Count; i++)
-            cumul.Add(cumul[i - 1] + Vector2.Distance(boundary[i - 1], boundary[i]));
+            cumul.Add(cumul[i - 1] +
+                      Vector2.Distance(boundary[i - 1], boundary[i]));
 
         float totalLength = cumul[cumul.Count - 1];
 
-        // hitPoint와 가장 가까운 경계 위의 점 찾기
         float bestT = 0f;
         float bestDist = float.MaxValue;
 
         for (int i = 0; i < boundary.Count - 1; i++)
         {
-            Vector2 closest = ClosestPointOnSegment(boundary[i], boundary[i + 1], hitPoint);
+            Vector2 closest =
+                ClosestPointOnSegment(
+                    boundary[i],
+                    boundary[i + 1],
+                    hitPoint);
+
             float d = Vector2.Distance(closest, hitPoint);
+
             if (d < bestDist)
             {
                 bestDist = d;
-                // 누적 거리상 위치 계산
-                float segLen = Vector2.Distance(boundary[i], boundary[i + 1]);
-                float localT = segLen > 0f
+
+                float segLen =
+                    Vector2.Distance(
+                        boundary[i],
+                        boundary[i + 1]);
+
+                float localT =
+                    segLen > 0f
                     ? Vector2.Distance(boundary[i], closest) / segLen
                     : 0f;
-                bestT = cumul[i] + localT * (cumul[i + 1] - cumul[i]);
+
+                bestT =
+                    cumul[i] +
+                    localT * (cumul[i + 1] - cumul[i]);
             }
         }
 
-        // bestT 기준 ±half 범위 (경계 순환 처리)
         float half = length * 0.5f;
-        float startT = bestT - half;
-        float endT = bestT + half;
 
         Vector3[] result = new Vector3[count];
+
         for (int i = 0; i < count; i++)
         {
-            float t = Mathf.Lerp(startT, endT, (float)i / (count - 1));
+            float t =
+                Mathf.Lerp(
+                    bestT - half,
+                    bestT + half,
+                    (float)i / (count - 1));
 
-            // 순환 처리
             t = ((t % totalLength) + totalLength) % totalLength;
 
-            Vector2 pos = SampleAtDistance(boundary, cumul, t);
+            Vector2 pos =
+                SampleAtDistance(
+                    boundary,
+                    cumul,
+                    t);
+
             result[i] = new Vector3(pos.x, pos.y, -1f);
         }
 
         return result;
+    }
+
+    private Vector3[] SampleOutlinePoints(
+    Collider2D col,
+    Vector2 hitPoint,
+    Vector2 tangent,
+    float length,
+    int count)
+    {
+        // CompositeCollider2D는 path별로 처리
+        if (col is CompositeCollider2D comp)
+        {
+            List<List<Vector2>> paths = GetCompositePaths(comp);
+
+            List<Vector2> bestPath = null;
+            float bestDist = float.MaxValue;
+
+            foreach (var path in paths)
+            {
+                for (int i = 0; i < path.Count - 1; i++)
+                {
+                    Vector2 closest =
+                        ClosestPointOnSegment(
+                            path[i],
+                            path[i + 1],
+                            hitPoint);
+
+                    float d = Vector2.Distance(hitPoint, closest);
+
+                    if (d < bestDist)
+                    {
+                        bestDist = d;
+                        bestPath = path;
+                    }
+                }
+            }
+
+            if (bestPath != null)
+            {
+                return SampleOutlineFromBoundary(
+                    bestPath,
+                    hitPoint,
+                    length,
+                    count);
+            }
+        }
+
+        // Polygon, Box, Circle 등 기존 처리
+        List<Vector2> boundary = GetBoundaryPoints(col);
+
+        if (boundary == null || boundary.Count < 2)
+            return FallbackLine(hitPoint, tangent, length, count);
+
+        return SampleOutlineFromBoundary(
+            boundary,
+            hitPoint,
+            length,
+            count);
     }
     private List<Vector2> GetBoundaryPoints(Collider2D col)
     {
@@ -382,6 +482,7 @@ public class EchoHitOutline : MonoBehaviour
 
     private void OnDestroy()
     {
+        StopAllCoroutines();
         foreach (var lr in activeRenderers)
             if (lr != null) Destroy(lr.gameObject);
         activeRenderers.Clear();
