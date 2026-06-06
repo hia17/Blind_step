@@ -63,7 +63,9 @@ public class PlayerHealth : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("플레이어 체력 0! 실패 조건 달성!");
-        // 나중에 여기에 결과창 띄우는 코드를 넣으면 돼.
+        Debug.Log("플레이어 체력 0! 다음 날로 넘어갑니다.");
+
+        // 체력이 0이 되면 GameManager를 통해 강제로 하루를 넘깁니다.
+        GameManager.Instance.PassDay();
     }
 }
