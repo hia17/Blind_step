@@ -42,6 +42,7 @@ public class DoorObject : MonoBehaviour
         isDetected = playerInRange;
         if (playerInRange)
         {
+            Debug.Log("door");
             Vector3 uiPos = center + openuiOffset;
             canOpenUI.transform.position = uiPos;
             uiPos = center + closeuiOffset;
