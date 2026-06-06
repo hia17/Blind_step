@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class ItemPickupDetector : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class ItemPickupDetector : MonoBehaviour
     [SerializeField] private GameObject canGetUI;
 
     private ItemObject nearestItem;
+
 
     private void Update()
     {
@@ -51,6 +53,12 @@ public class ItemPickupDetector : MonoBehaviour
 
     private void HandleInput()
     {
+        float scroll = Mouse.current.scroll.ReadValue().y;
+        if (scroll < 0) // ÈÙ ³»¸®±â
+        {
+            if (Inventory.Instance.Items.Count == 2)
+                Inventory.Instance.SwapItems(0, 1);
+        }
         if (InputManager.getPressed && nearestItem != null)
         {
             nearestItem.PickUp();
@@ -58,10 +66,10 @@ public class ItemPickupDetector : MonoBehaviour
             canGetUI.SetActive(false);
         }
 
-        if (InputManager.dropPressed)
+        if (InputManager.dropPressed&& Inventory.Instance.Items.Count != 0)
             Inventory.Instance.DropItem(0, transform.position);
 
-        if (InputManager.usePressed)
+        if (InputManager.usePressed && !DoorObject.isDetected&& Inventory.Instance.Items.Count != 0)
             Inventory.Instance.UseItem(0);
     }
 }

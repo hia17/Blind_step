@@ -21,6 +21,8 @@ public class InputManager : MonoBehaviour
     public static bool dropPressed;
     private InputAction dropAction;
 
+
+
     private Camera mainCamera;
 
     private void Awake()
@@ -49,5 +51,6 @@ public class InputManager : MonoBehaviour
         getPressed = getAction.WasPressedThisFrame();
         dropPressed = dropAction.WasPressedThisFrame();
         detectPressed = detectAction.IsPressed();
+     
     }
 }

@@ -4,9 +4,16 @@ using UnityEngine.UI;
 public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private Image[] icons;
+    private InventorySlot[] slots;
 
     private void Start()
     {
+        slots = new InventorySlot[icons.Length];
+        for (int i = 0; i < icons.Length; i++)
+        {
+            slots[i] = icons[i].gameObject.AddComponent<InventorySlot>();
+        }
+
         Inventory.Instance.OnInventoryChanged += RefreshUI;
         RefreshUI();
     }
@@ -27,10 +34,12 @@ public class InventoryUI : MonoBehaviour
             {
                 icons[i].sprite = items[i].icon;
                 icons[i].enabled = true;
+                slots[i].SetItem(items[i]);
             }
             else
             {
                 icons[i].enabled = false;
+                slots[i].ClearItem();
             }
         }
     }

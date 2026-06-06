@@ -37,10 +37,6 @@ public class PlayerController : MonoBehaviour
     {
         GetInput();
 
-        if (InputManager.usePressed)
-        {
-            Debug.Log("Use Pressed");
-        }
 
         HandleMovementState();
     }

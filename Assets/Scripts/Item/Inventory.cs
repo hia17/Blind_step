@@ -45,6 +45,18 @@ public class Inventory : MonoBehaviour
         items.RemoveAt(index);
         OnInventoryChanged?.Invoke();
     }
+
+    public void SwapItems(int indexA, int indexB)
+    {
+        if (indexA < 0 || indexB < 0) return;
+        if (indexA >= items.Count || indexB >= items.Count) return;
+
+        ItemData temp = items[indexA];
+        items[indexA] = items[indexB];
+        items[indexB] = temp;
+
+        OnInventoryChanged?.Invoke(); // UI °»½Å
+    }
     public void UseItem(int index)
     {
         if (index < 0) return;

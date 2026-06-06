@@ -15,6 +15,10 @@ public class RayEmit : MonoBehaviour
     [Tooltip("레이가 뻗어나가는 속도 (유닛/초)")]
     [SerializeField] private float raySpeed = 15f;
 
+    [Header("Ray Shape")]
+    [Tooltip("0 = 직선, 1 = 파형")]
+    [SerializeField] private int rayShape = 1;
+
     [Header("Wave Shape")]
     [Tooltip("사인파 높이 (위아래 진폭)")]
     [SerializeField] private float waveHeight = 0.15f;
@@ -34,6 +38,13 @@ public class RayEmit : MonoBehaviour
     [SerializeField] private Color rayColor = Color.white;
     [Tooltip("최대 거리 도달 후 전체 사라지기까지의 시간")]
     [SerializeField] private float fadeDuration = 0.4f;
+
+    [Header("Ray Delay")]
+    [Tooltip("레이 발사 간격 (초). 0이면 즉시 발사")]
+    [SerializeField] private float rayDelay = 2f;
+
+    private float lastFireTime = -999f; // 마지막 발사 시각
+    private bool hitDetected = false;   // 충돌 감지 여부
 
     [Header("Detect")]
     [Tooltip("레이에 감지될 레이어")]
@@ -56,10 +67,21 @@ public class RayEmit : MonoBehaviour
 
     private void TriggerEcho()
     {
+        // 딜레이 체크 — 충돌 감지됐으면 딜레이 무시
+        bool delayPassed = (Time.time - lastFireTime) >= rayDelay;
+
+        if (!delayPassed && !hitDetected)
+            return; // 딜레이 안 지났고 충돌도 없으면 발사 불가
+
         if (echoCoroutine != null)
         {
             return;
+            //ClearAllLines();
+            //StopAllCoroutines();
         }
+
+        lastFireTime = Time.time;
+        hitDetected = false; // 초기화
         echoCoroutine = StartCoroutine(FireRays());
     }
 
@@ -132,6 +154,7 @@ public class RayEmit : MonoBehaviour
                     {
                         stopped[i] = true;
                         stoppedAt[i] = Vector2.Distance(fixedOrigin, hit.point);
+                        hitDetected = true;
 
                         // 충돌 오브젝트에 EchoHitOutline이 있으면 외곽선 표시 요청
                         EchoHitOutline outline = hit.collider.GetComponent<EchoHitOutline>();
@@ -209,8 +232,13 @@ public class RayEmit : MonoBehaviour
             float t = (float)p / (totalPoints - 1);
             float dist = Mathf.Lerp(tailDist, headDist, t);
 
+
             // 사인파 offset
-            float offset = Mathf.Sin((dist / waveLength) * Mathf.PI * 2f) * waveHeight;
+            //float offset = Mathf.Sin((dist / waveLength) * Mathf.PI * 2f) * waveHeight;
+            float offset = (rayShape == 1)
+            ? Mathf.Sin((dist / waveLength) * Mathf.PI * 2f) * waveHeight
+            : 0f;
+
 
             Vector2 pos = origin + forward * dist + perp * offset;
             lr.SetPosition(p, new Vector3(pos.x, pos.y, -1f));
