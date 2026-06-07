@@ -1102,7 +1102,7 @@ GameObject:
   - component: {fileID: 745454720}
   - component: {fileID: 745454722}
   - component: {fileID: 745454721}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Hanger (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1200,7 +1200,7 @@ MonoBehaviour:
   outlineWidth: 0.05
   holdDuration: 1.2
   fadeDuration: 0.5
-  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineColor: {r: 1, g: 0.05638304, b: 0, a: 1}
   showFullOutline: 1
 --- !u!60 &745454722
 PolygonCollider2D:
@@ -41396,7 +41396,7 @@ GameObject:
   - component: {fileID: 1072269535}
   - component: {fileID: 1072269538}
   - component: {fileID: 1072269537}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Hanger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41494,7 +41494,7 @@ MonoBehaviour:
   outlineWidth: 0.05
   holdDuration: 1.2
   fadeDuration: 0.5
-  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineColor: {r: 1, g: 0.05638304, b: 0, a: 1}
   showFullOutline: 1
 --- !u!60 &1072269536
 PolygonCollider2D:
@@ -41960,7 +41960,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 442827182793365635, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: detectLayer.m_Bits
-      value: 896
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 959857785919556910, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: m_Layer
@@ -41968,11 +41968,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1839281813123347628, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.3
+      value: -17.75
       objectReference: {fileID: 0}
     - target: {fileID: 1839281813123347628, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -18
+      value: 1.05
       objectReference: {fileID: 0}
     - target: {fileID: 1839281813123347628, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -42006,6 +42006,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3215590800114702751, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
     - target: {fileID: 3830634952928873708, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: canGetUI
       value: 
@@ -42046,10 +42050,17 @@ PrefabInstance:
       propertyPath: m_PointLightOuterRadius
       value: 0.48
       objectReference: {fileID: 0}
+    - target: {fileID: 6880575346630939967, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
+      propertyPath: recoilSteps
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6034592909295342347, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1484650253}
   m_SourcePrefab: {fileID: 100100000, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
 --- !u!1 &1210585436
 GameObject:
@@ -48876,6 +48887,23 @@ PolygonCollider2D:
       - {x: 0.17, y: -0.255}
       - {x: 0.17, y: 0.255}
   m_UseDelaunayMesh: 1
+--- !u!1 &1484650245 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6034592909295342347, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
+  m_PrefabInstance: {fileID: 1204923924}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1484650253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1484650245}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5a919500c80094da17df1d0661d0f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
 --- !u!1 &1520662112
 GameObject:
   m_ObjectHideFlags: 0
@@ -49404,11 +49432,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1724442757343006502, guid: b7706f4b4c1a279458d3a55522861ce8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.7600005
+      value: -19.21
       objectReference: {fileID: 0}
     - target: {fileID: 1724442757343006502, guid: b7706f4b4c1a279458d3a55522861ce8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.16
+      value: 7.8900003
       objectReference: {fileID: 0}
     - target: {fileID: 2976627346726912279, guid: b7706f4b4c1a279458d3a55522861ce8, type: 3}
       propertyPath: Lens.OrthographicSize
@@ -49420,11 +49448,11 @@ PrefabInstance:
       objectReference: {fileID: 1298963642}
     - target: {fileID: 3507908910083766980, guid: b7706f4b4c1a279458d3a55522861ce8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.7600005
+      value: -19.21
       objectReference: {fileID: 0}
     - target: {fileID: 3507908910083766980, guid: b7706f4b4c1a279458d3a55522861ce8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.16
+      value: 7.8900003
       objectReference: {fileID: 0}
     - target: {fileID: 4220695393147057864, guid: b7706f4b4c1a279458d3a55522861ce8, type: 3}
       propertyPath: m_Name
@@ -50071,7 +50099,7 @@ GameObject:
   - component: {fileID: 2094185689}
   - component: {fileID: 2094185691}
   - component: {fileID: 2094185690}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: Hanger (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -50169,7 +50197,7 @@ MonoBehaviour:
   outlineWidth: 0.05
   holdDuration: 1.2
   fadeDuration: 0.5
-  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  outlineColor: {r: 1, g: 0.05638304, b: 0, a: 1}
   showFullOutline: 1
 --- !u!60 &2094185691
 PolygonCollider2D:

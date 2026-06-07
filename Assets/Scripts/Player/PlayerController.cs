@@ -1,4 +1,7 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
@@ -26,11 +29,28 @@ public class PlayerController : MonoBehaviour
     private bool wasMoving = false;
     private GameObject lastSpawnedFootprint;
 
+
+    //recoil변수
+    [Header("반동관련 변수")]
+    [SerializeField] private float recoilSpeed = 8f; //초기 반동속도
+    [SerializeField] private int recoilSteps = 8; //몇프레임에 걸쳐 반동이일어날지
+    [SerializeField] private float recoilDecay = 0.75f; //반동속도 감속비율
+
+    private bool isRecoiling = false;  //반동중인지
+    private int stepsRecoiled = 0;  //현재 몇프레임째 반동중인지
+    private Vector2 recoilDir = Vector2.zero; //반동방향
+    private float currentRecoilSpeed;  //현재 반동속도
+
+    private Light2D hitLight;
+    private Color originalColor;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         lastFootprintPos = transform.position;
+        hitLight = GetComponentInChildren<Light2D>();
+        originalColor = hitLight.color;
     }
 
     void Update()
@@ -43,8 +63,12 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 moveVector = new Vector3(xAxis * moveSpeed, yAxis * moveSpeed, 0f);
-        rb.linearVelocity = moveVector;
+        if (isRecoiling)
+        {
+            ApplyRecoil();
+            return;
+        }
+        Move();   
     }
 
     private void GetInput()
@@ -53,7 +77,83 @@ public class PlayerController : MonoBehaviour
         xAxis = moveDir.x;
         yAxis = moveDir.y;
     }
+    private void Move()
+    {
+        Vector3 moveVector = new Vector3(xAxis * moveSpeed, yAxis * moveSpeed, 0f);
+        rb.linearVelocity = moveVector;
+    }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+        {
+            Vector2 dir = (transform.position - collision.transform.position).normalized;
+            TriggerRecoil(dir);
+            TakeDamage();
+        }
+    }
+
+    public void TriggerRecoil(Vector2 contactNormal)
+    {
+        recoilDir = contactNormal.normalized;
+        currentRecoilSpeed = recoilSpeed;
+        stepsRecoiled = 0;
+        isRecoiling = true;
+    }
+
+    private void ApplyRecoil()
+    {
+        rb.linearVelocity = recoilDir * currentRecoilSpeed;
+        currentRecoilSpeed *= recoilDecay;
+
+        stepsRecoiled++;
+        if (stepsRecoiled >= recoilSteps)
+            StopRecoil();
+    }
+    private void StopRecoil()
+    {
+        isRecoiling = false;
+        stepsRecoiled = 0;
+        recoilDir = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
+    }
+    public void TakeDamage()
+    {
+        PlayerStateList.damagedCount++;
+        PlayerHealth.Instance.TakeDamage(10);
+        StartCoroutine(HitLightEffect());
+        if (PlayerStateList.damagedCount++ == 3)
+        {
+            PlayerStateList.isHurt = true;
+            PlayerStateList.damagedCount = 0;
+            ChangeMoveSpeed(3);
+        }
+        
+    }
+
+    IEnumerator HitLightEffect()
+    {
+        int blinkCount = 3;        // 깜빡임 횟수
+        float blinkInterval = 0.2f; // 빨강 ↔ 원래색 간격(초)
+
+        for (int i = 0; i < blinkCount; i++)
+        {
+            hitLight.color = Color.red;
+            yield return new WaitForSeconds(blinkInterval);
+            hitLight.color = originalColor;
+            yield return new WaitForSeconds(blinkInterval);
+        }
+    }
+
+
+    private void ChangeMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
+    }
+
+
+
+    #region 발자국
     private void HandleMovementState()
     {
         bool isMoving = (xAxis != 0 || yAxis != 0);
@@ -120,4 +220,6 @@ public class PlayerController : MonoBehaviour
             lastFootprintPos = transform.position;
         }
     }
+    #endregion
+
 }
