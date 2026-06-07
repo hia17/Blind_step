@@ -11,6 +11,7 @@ public class ItemData : ScriptableObject
         badFood = 1,
         stick =2,
         key = 3,
+        medicine = 4,
 
     }
     [Header("기본 정보")]
@@ -20,4 +21,6 @@ public class ItemData : ScriptableObject
     public ItemType itemType;
     [Header("설명")]
     [TextArea] public string description;
+    public float healAmount = 0f;
+    public float buffTime = 0f;
 }

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5af8bf4daea14cb4a8d4496c3ba576bb, type: 3}
-  m_Name: Badfood
+  m_Name: Medicine
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: "\uC5F4\uB824\uC788\uB294 \uD1B5\uC870\uB9BC"
-  icon: {fileID: 21300000, guid: 11277a3f23988ec47908362d708edaa8, type: 3}
-  worldPrefab: {fileID: 5705192666224589322, guid: 76c2b3741e050904e8a7cc9b02fef237, type: 3}
-  itemType: 1
-  description: "\uB69C\uAED1\uC774 \uC5F4\uB824\uC788\uB294 \uD1B5\uC870\uB9BC\uC774\uB2E4."
-  healAmount: 20
-  buffTime: 10
+  itemName: "\uC57D"
+  icon: {fileID: 0}
+  worldPrefab: {fileID: 0}
+  itemType: 4
+  description: "\uC18C\uD654\uC81C"
+  healAmount: 0
+  buffTime: 0

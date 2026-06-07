@@ -64,13 +64,11 @@ public class Inventory : MonoBehaviour
 
         if (data.itemType == ItemData.ItemType.Food)
         {
-            Debug.Log($"Used {data.itemName}, it was food!");
-            PlayerHealth.Instance.Heal(20); // 좋은 음식이면 체력 20 회복
+            Food(data.healAmount);
         }
         else if (data.itemType == ItemData.ItemType.badFood)
-        {
-            Debug.Log($"Used {data.itemName}, it was bad food!");
-            PlayerHealth.Instance.TakeDamage(10); // 상한 음식이면 체력 10 깎임
+        { 
+            BadFood(data.healAmount, data.buffTime);
         }
         else if (data.itemType == ItemData.ItemType.stick)
         {
@@ -80,8 +78,23 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log($"Used {data.itemName}, it was a key!");
         }
+        else if(data.itemType == ItemData.ItemType.medicine)
+        {
+            PlayerController.instance.GetMedicine();
+        }
 
         items.RemoveAt(index);
         OnInventoryChanged?.Invoke();
+    }
+
+    private void Food(float hp)
+    {
+        PlayerHealth.Instance.Heal(hp);
+    }
+    private void BadFood(float hp, float t)
+    {
+        PlayerHealth.Instance.Heal(hp);
+        PlayerController.instance.InDigest(hp+15f,t);
+
     }
 }

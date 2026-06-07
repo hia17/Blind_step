@@ -5,6 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
 
@@ -36,13 +37,26 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int recoilSteps = 8; //몇프레임에 걸쳐 반동이일어날지
     [SerializeField] private float recoilDecay = 0.75f; //반동속도 감속비율
 
+    private bool lightrecoil = false;
     private bool isRecoiling = false;  //반동중인지
     private int stepsRecoiled = 0;  //현재 몇프레임째 반동중인지
     private Vector2 recoilDir = Vector2.zero; //반동방향
     private float currentRecoilSpeed;  //현재 반동속도
-
     private Light2D hitLight;
     private Color originalColor;
+
+    private Coroutine indigestCoroutine;
+    private void Awake()
+    {
+        if(instance != null&&instance !=this)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
+    }
 
     void Start()
     {
@@ -68,9 +82,14 @@ public class PlayerController : MonoBehaviour
             ApplyRecoil();
             return;
         }
-        Move();   
+        if (PlayerStateList.isDamaged)
+        {
+            rb.linearVelocity = Vector2.zero; // 피격 중 완전 정지
+            return;
+        }
+        Move();
     }
-
+    #region 이동
     private void GetInput()
     {
         Vector2 moveDir = InputManager.moveDir;
@@ -82,7 +101,9 @@ public class PlayerController : MonoBehaviour
         Vector3 moveVector = new Vector3(xAxis * moveSpeed, yAxis * moveSpeed, 0f);
         rb.linearVelocity = moveVector;
     }
+    #endregion
 
+    #region 충돌 반동
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
@@ -103,11 +124,12 @@ public class PlayerController : MonoBehaviour
 
     private void ApplyRecoil()
     {
+        
         rb.linearVelocity = recoilDir * currentRecoilSpeed;
         currentRecoilSpeed *= recoilDecay;
 
         stepsRecoiled++;
-        if (stepsRecoiled >= recoilSteps)
+        if (stepsRecoiled >= recoilSteps )
             StopRecoil();
     }
     private void StopRecoil()
@@ -121,20 +143,18 @@ public class PlayerController : MonoBehaviour
     {
         PlayerStateList.damagedCount++;
         PlayerHealth.Instance.TakeDamage(10);
-        StartCoroutine(HitLightEffect());
-        if (PlayerStateList.damagedCount++ == 3)
-        {
-            PlayerStateList.isHurt = true;
-            PlayerStateList.damagedCount = 0;
-            ChangeMoveSpeed(3);
-        }
         
+
+
     }
 
-    IEnumerator HitLightEffect()
+    
+    public IEnumerator HitLightEffect()
     {
+        
         int blinkCount = 3;        // 깜빡임 횟수
         float blinkInterval = 0.2f; // 빨강 ↔ 원래색 간격(초)
+        
 
         for (int i = 0; i < blinkCount; i++)
         {
@@ -143,14 +163,74 @@ public class PlayerController : MonoBehaviour
             hitLight.color = originalColor;
             yield return new WaitForSeconds(blinkInterval);
         }
+        PlayerStateList.isDamaged = false;
+    }
+    #endregion
+
+    public void InDigest(float hp, float t)
+    {
+        if (!PlayerStateList.indigest)
+        {
+            SetMoveSpeed();
+            PlayerStateList.indigest = true;
+        }
+
+        if (PlayerStateList.indigest)
+        {
+            moveSpeed /= 2f;
+            ChangeMoveSpeed(moveSpeed);
+            if(indigestCoroutine == null)
+            {
+                indigestCoroutine = StartCoroutine(ShouldGoToToilet(hp,t));
+            }
+            else
+            {
+                
+                PlayerHealth.Instance.TakeDamage(hp);
+            }
+        }
     }
 
+    IEnumerator ShouldGoToToilet(float hp, float timelimit)
+    {
+        yield return new WaitForSeconds(timelimit);
 
+        if (PlayerStateList.indigest)
+        {
+            //피깎이기
+            PlayerHealth.Instance.TakeDamage(hp);
+            PlayerStateList.indigest = false;
+            ChangeMoveSpeed(PlayerStateList.originSpeed);
+        }
+        
+        indigestCoroutine = null;
+    }
+    public void GetMedicine()
+    {
+        PlayerStateList.indigest = false;
+        PlayerStateList.isHurt = false;
+        ChangeMoveSpeed(PlayerStateList.originSpeed);
+    }
+
+    private void GetHurt()
+    {
+        if (PlayerStateList.damagedCount == 3)
+        {
+            PlayerStateList.isHurt = true;
+            PlayerStateList.damagedCount = 0;
+            PlayerStateList.originSpeed = moveSpeed;
+            ChangeMoveSpeed(3);
+        }
+    }
     private void ChangeMoveSpeed(float speed)
     {
         moveSpeed = speed;
+        
     }
-
+    private void SetMoveSpeed()
+    {
+        PlayerStateList.originSpeed = moveSpeed;
+    }
 
 
     #region 발자국

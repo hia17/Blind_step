@@ -9,6 +9,7 @@ public class PlayerStateList : MonoBehaviour
     public static bool isHurt = false;
 
     public static bool indigest = false;
-    public static bool getMedicine = false;
+    public static float originSpeed;
+    public static bool isDamaged = false;
     
 }

@@ -7,8 +7,8 @@ public class PlayerHealth : MonoBehaviour
     public static PlayerHealth Instance { get; private set; }
 
     [Header("체력 설정")]
-    public int maxHealth = 100;
-    public int currentHealth;
+    public float maxHealth = 100;
+    public float currentHealth;
 
     [Header("UI 설정")]
     public Slider healthBar; // 유니티의 체력바 UI
@@ -30,12 +30,14 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // 데미지를 입을 때 부르는 함수 (장애물, 상한 음식)
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         if (currentHealth < 0) currentHealth = 0; // 체력이 0 밑으로 내려가지 않게
 
         UpdateHealthUI();
+        PlayerStateList.isDamaged = true;
+        StartCoroutine(PlayerController.instance.HitLightEffect());
         Debug.Log($"데미지 {damage} 받음. 현재 체력: {currentHealth}");
 
         // 체력이 0이 되면 게임오버 처리 (기획서의 실패 조건!)
@@ -46,7 +48,7 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // 회복할 때 부르는 함수 (정상 음식)
-    public void Heal(int amount)
+    public void Heal(float amount)
     {
         currentHealth += amount;
         if (currentHealth > maxHealth) currentHealth = maxHealth; // 최대 체력 넘지 않게
