@@ -17,6 +17,10 @@ public class PlayerHealth : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        if (healthBar == null)
+        {
+            healthBar = GameObject.FindWithTag("HealthBar").GetComponent<Slider>();
+        }
     }
 
     private void Start()

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8193490819572344075}
   - component: {fileID: 6200255409448080675}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Spot Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,9 +100,9 @@ GameObject:
   - component: {fileID: 6880575346630939967}
   - component: {fileID: 442827182793365635}
   - component: {fileID: 4665260202787710885}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -292,11 +292,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2957cb1e47dc7ee41a30883eb7e41765, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EchoEmit
-  halfAngle: 15
-  rayCount: 1
+  halfAngle: 10
+  rayCount: 3
   maxDistance: 10
   raySpeed: 15
-  rayShape: 1
+  rayShape: 0
   waveHeight: 0.3
   waveLength: 2
   pointsPerUnit: 12
@@ -304,10 +304,10 @@ MonoBehaviour:
   lineWidth: 0.05
   rayColor: {r: 1, g: 1, b: 1, a: 1}
   fadeDuration: 0.3
-  rayDelay: 2
+  rayDelay: 0.5
   detectLayer:
     serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 896
 --- !u!114 &4665260202787710885
 MonoBehaviour:
   m_ObjectHideFlags: 0

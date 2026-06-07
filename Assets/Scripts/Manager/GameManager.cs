@@ -27,6 +27,9 @@ public class GameManager : MonoBehaviour
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
+        if(playerTransform ==null)
+            playerTransform = GameObject.FindWithTag("Player").transform;
+        
     }
 
     private void Start()

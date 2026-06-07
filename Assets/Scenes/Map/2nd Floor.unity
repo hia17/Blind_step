@@ -186,7 +186,7 @@ PrefabInstance:
     - target: {fileID: 2961645956343710644, guid: 6fa7c750577864f488181bd9398d7b0d, type: 3}
       propertyPath: playerTransform
       value: 
-      objectReference: {fileID: 1298963642}
+      objectReference: {fileID: 0}
     - target: {fileID: 4539209086322961057, guid: 6fa7c750577864f488181bd9398d7b0d, type: 3}
       propertyPath: m_Name
       value: Manager
@@ -41892,17 +41892,6 @@ Transform:
   - {fileID: 1798504673}
   m_Father: {fileID: 1957262370}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1186627810 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 539985180023446943, guid: 6fa7c750577864f488181bd9398d7b0d, type: 3}
-  m_PrefabInstance: {fileID: 70167868}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Slider
 --- !u!1 &1194041644
 GameObject:
   m_ObjectHideFlags: 0
@@ -42024,7 +42013,7 @@ PrefabInstance:
     - target: {fileID: 4665260202787710885, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: healthBar
       value: 
-      objectReference: {fileID: 1186627810}
+      objectReference: {fileID: 0}
     - target: {fileID: 6034592909295342347, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
       propertyPath: m_Name
       value: Player
@@ -48495,7 +48484,7 @@ MonoBehaviour:
   holdDuration: 1.2
   fadeDuration: 0.5
   outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  showFullOutline: 1
+  showFullOutline: 0
 --- !u!4 &1298963642 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1839281813123347628, guid: e7439614a7f15c24e9731c7cd8202d5a, type: 3}
