@@ -173,6 +173,8 @@ public class PlayerController : MonoBehaviour
         {
             SetMoveSpeed();
             PlayerStateList.indigest = true;
+
+            IndigestUI.Instance.StartTimer(t);
         }
 
         if (PlayerStateList.indigest)

@@ -26,7 +26,13 @@ public class TooltipUI : MonoBehaviour
         
         gameObject.SetActive(true);
     }
-
+    public void Show(string name, string description, Vector2 anchoredPosition)
+    {
+        itemNameText.text = name;
+        descriptionText.text = description;
+        tooltipRect.anchoredPosition = anchoredPosition;
+        gameObject.SetActive(true);
+    }
     public void Hide()
     {
         gameObject.SetActive(false);
