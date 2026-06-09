@@ -7,10 +7,7 @@ public class SceneSwapManager : MonoBehaviour
 {
     public static SceneSwapManager Instance;
     private static bool _loadFromDoor;
-    public static bool[] isDreamCleared = new bool[3] { false, false, false };
 
-
-    private bool _isBox;
     private GameObject _player;
     private Collider2D _playerColl;
     private Collider2D _doorColl;
@@ -41,19 +38,18 @@ public class SceneSwapManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
     
-    public static void SwapSceneFromDoorUse(SceneField myScene, DoorTriggerInteraction.DoorToSpawnAt doorToSpawnAt, bool isBox = false, bool sceneswapsounduse = true)
+    public static void SwapSceneFromDoorUse(SceneField myScene, DoorTriggerInteraction.DoorToSpawnAt doorToSpawnAt)
     {
         
-        if (!isBox)
-        {
-            _loadFromDoor = true;
-            Instance.StartCoroutine(Instance.FadeOutThenChangeScene(myScene, doorToSpawnAt, sceneswapsounduse));
-        }
+        
+        _loadFromDoor = true;
+        Instance.StartCoroutine(Instance.FadeOutThenChangeScene(myScene, doorToSpawnAt));
+      
       
     }
 
 
-    private IEnumerator FadeOutThenChangeScene(SceneField myScene, DoorTriggerInteraction.DoorToSpawnAt doorToSpawnAt = DoorTriggerInteraction.DoorToSpawnAt.None, bool sceneswapsounduse = true)
+    private IEnumerator FadeOutThenChangeScene(SceneField myScene, DoorTriggerInteraction.DoorToSpawnAt doorToSpawnAt = DoorTriggerInteraction.DoorToSpawnAt.None)
     {
         //start fading to black
         InputManager.DeactivatePlayerControls();
@@ -67,22 +63,22 @@ public class SceneSwapManager : MonoBehaviour
 
         _doorToSpawnTo = doorToSpawnAt;
   
-        SceneManager.LoadScene(myScene);
+        //SceneManager.LoadScene(myScene);
         #region this code load scene first and then fade in
-        //AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(myScene);
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(myScene);
 
         //// 씬 로드가 완료될 때까지 대기
-        //while (!asyncLoad.isDone)
-        //{
-        //    yield return null;
-        //}
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
 
-        //// 씬 로드 완료 후 페이드인
-        //yield return new WaitForSeconds(0.1f);
-        //if (SceneFadeManager.instance != null)
-        //{
-        //    SceneFadeManager.instance.StartFadeIn();
-        //}
+        // 씬 로드 완료 후 페이드인
+        yield return new WaitForSeconds(0.1f);
+        if (SceneFadeManager.instance != null)
+        {
+            SceneFadeManager.instance.StartFadeIn();
+        }
         #endregion
 
     }
@@ -165,12 +161,5 @@ public class SceneSwapManager : MonoBehaviour
 
     }
 
-    public static void ResetSceneSwapManager()
-    {
-        _loadFromDoor = false;
-        for (int i = 0; i < isDreamCleared.Length; i++)
-        {
-            isDreamCleared[i] = false;
-        }
-    }
+
 }

@@ -36,6 +36,8 @@ public class DoorObject : MonoBehaviour
     // ── 범위 감지 ──────────────────────────────────────────
     private void CheckPlayerRange()
     {
+        if (canOpenUI == null) canOpenUI = GameObject.FindWithTag("OpenUI");
+        if (canCloseUI == null) canCloseUI = GameObject.FindWithTag("CloseUI");
         Vector3 center = detectionCenter != null ? detectionCenter.position : transform.position;
         Collider2D hit = Physics2D.OverlapCircle(center, interactRadius, playerLayer);
         playerInRange = (hit != null);
@@ -48,6 +50,7 @@ public class DoorObject : MonoBehaviour
             uiPos = center + closeuiOffset;
             canCloseUI.transform.position = uiPos;
         }
+        
         canOpenUI.SetActive(playerInRange && !isOpen);
         canCloseUI.SetActive(playerInRange && isOpen);
     }

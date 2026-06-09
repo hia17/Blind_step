@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 6880575346630939967}
   - component: {fileID: 442827182793365635}
   - component: {fileID: 4665260202787710885}
+  - component: {fileID: 3028271514181760471}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -280,6 +281,9 @@ MonoBehaviour:
   stepDistance: 1
   stepWidth: 0.2
   rotationSpeed: 20
+  recoilSpeed: 8
+  recoilSteps: 8
+  recoilDecay: 0.75
 --- !u!114 &442827182793365635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,3 +327,15 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 0}
+--- !u!114 &3028271514181760471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6034592909295342347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f5a919500c80094da17df1d0661d0f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'

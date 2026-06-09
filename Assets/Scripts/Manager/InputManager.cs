@@ -3,9 +3,9 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
 
-    public static PlayerInput PlayerInput;
 
-    private PlayerInput playerInput;
+
+    private static PlayerInput playerInput;
     public static Vector2 moveDir;
     private InputAction moveAction;
 
@@ -30,6 +30,12 @@ public class InputManager : MonoBehaviour
 
     private void Awake()
     {
+        if (playerInput != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        
         mainCamera = Camera.main;
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
@@ -43,6 +49,8 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
+        if (mainCamera == null) mainCamera = Camera.main;
+
         moveDir = moveAction.ReadValue<Vector2>();
 
         usePressed = useAction.WasPressedThisFrame();
@@ -59,14 +67,14 @@ public class InputManager : MonoBehaviour
 
     public static void ActivatePlayerControls()
     {
-        PlayerInput.currentActionMap.Enable();
+        playerInput.currentActionMap.Enable();
 
 
     }
 
     public static void DeactivatePlayerControls()
     {
-        PlayerInput.currentActionMap.Disable();
+        playerInput.currentActionMap.Disable();
 
     }
 }

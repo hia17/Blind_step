@@ -12,8 +12,12 @@ public class TooltipUI : MonoBehaviour
     private Vector2 defaultPosition;
     private void Awake()
     {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
         Instance = this;
-        
     }
 
     private void Start()
