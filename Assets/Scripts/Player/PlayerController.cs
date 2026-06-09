@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private int recoilSteps = 8; //몇프레임에 걸쳐 반동이일어날지
     [SerializeField] private float recoilDecay = 0.75f; //반동속도 감속비율
 
-    private bool lightrecoil = false;
+    
     private bool isRecoiling = false;  //반동중인지
     private int stepsRecoiled = 0;  //현재 몇프레임째 반동중인지
     private Vector2 recoilDir = Vector2.zero; //반동방향

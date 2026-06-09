@@ -44,9 +44,9 @@ public class DoorTriggerInteraction : TriggerInteractionBase
        
     }
     public override void Interact()
-    { 
-  
+    {
 
+        Debug.Log("interact");
 
         if (!isTrigger)
         {
