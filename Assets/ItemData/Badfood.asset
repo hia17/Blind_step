@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Badfood
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uC5F4\uB824\uC788\uB294 \uD1B5\uC870\uB9BC"
-  icon: {fileID: 21300000, guid: 11277a3f23988ec47908362d708edaa8, type: 3}
+  icon: {fileID: 8880989211683775595, guid: aa19e3ff93151934b9c7258c7a357645, type: 3}
   worldPrefab: {fileID: 5705192666224589322, guid: 76c2b3741e050904e8a7cc9b02fef237, type: 3}
   itemType: 1
   description: "\uB69C\uAED1\uC774 \uC5F4\uB824\uC788\uB294 \uD1B5\uC870\uB9BC\uC774\uB2E4."
