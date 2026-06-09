@@ -2,6 +2,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
+
+    public static PlayerInput PlayerInput;
+
     private PlayerInput playerInput;
     public static Vector2 moveDir;
     private InputAction moveAction;
@@ -52,5 +55,18 @@ public class InputManager : MonoBehaviour
         dropPressed = dropAction.WasPressedThisFrame();
         detectPressed = detectAction.IsPressed();
      
+    }
+
+    public static void ActivatePlayerControls()
+    {
+        PlayerInput.currentActionMap.Enable();
+
+
+    }
+
+    public static void DeactivatePlayerControls()
+    {
+        PlayerInput.currentActionMap.Disable();
+
     }
 }
