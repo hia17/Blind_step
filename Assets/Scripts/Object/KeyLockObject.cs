@@ -26,7 +26,12 @@ public class KeyLockObject : ObjectTrigger
     {
         base.Start();
         if (noKeyUI != null)
+        {
+            noKeyUI.transform.rotation = Quaternion.identity;
             noKeyUI.SetActive(false);
+        }
+
+            
     }
     protected override void Update()
     {

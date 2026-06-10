@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 
 /// <summary>
 /// 조사 시 아이템을 획득하는 자식 클래스.
@@ -20,13 +21,26 @@ public class ObjectGeted : ObjectTrigger
         base.Start();
 
         if (itemGetUI == null)
+        {
             itemGetUI = GameObject.FindWithTag("ItemGetUI");
 
+        }
+            
+
         if (itemGetUI != null)
+        {
+            itemGetUI.transform.rotation = Quaternion.identity;
             itemGetUI.SetActive(false);
 
+        }
+            
+
         if(alreadyGetUI != null)
+        {
+            alreadyGetUI.transform.rotation = Quaternion.identity;
             alreadyGetUI.SetActive(false);
+        }
+            
     }
 
     protected override void Update()

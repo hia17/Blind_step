@@ -38,11 +38,19 @@ public class ObjectTrigger : MonoBehaviour
     // 式式 蟾晦�� 式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式式
     protected virtual void Start()
     {
-        if (inspectPromptUI == null)
+        if (inspectPromptUI == null) {
             inspectPromptUI = GameObject.FindWithTag("InspectPromptUI");
-        if (inspectingUI == null)
-            inspectingUI = GameObject.FindWithTag("InspectingUI");
+            
+        }
 
+        inspectPromptUI.transform.rotation = Quaternion.identity;
+        if (inspectingUI == null)
+        {
+            inspectingUI = GameObject.FindWithTag("InspectingUI");
+            
+        }
+
+        inspectingUI.transform.rotation = Quaternion.identity;
         HideAllUI();
     }
 
