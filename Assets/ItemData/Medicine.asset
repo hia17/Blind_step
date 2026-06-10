@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: Medicine
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uC57D"
-  icon: {fileID: 0}
+  icon: {fileID: -485646294723371877, guid: 16fe2dab852b5454c8fec7664be83bb8, type: 3}
   worldPrefab: {fileID: 0}
   itemType: 4
+  keyID: 
   description: "\uC18C\uD654\uC81C"
   healAmount: 0
   buffTime: 0
