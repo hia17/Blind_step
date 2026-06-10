@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 17746504996743454}
   - component: {fileID: 433892295580679902}
-  - component: {fileID: 898733945714435147}
+  - component: {fileID: 1054238527319078344}
   - component: {fileID: 2322058365100702352}
   - component: {fileID: 8372247008724670010}
   m_Layer: 8
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -6823735549862139862, guid: 2b5328431ce1bcb478f0317c53c5b2bd, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,8 +94,8 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!61 &898733945714435147
-BoxCollider2D:
+--- !u!60 &1054238527319078344
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -132,14 +132,30 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.61, y: 0.36}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.22383142, y: 0.105374634}
+      - {x: 0.1360102, y: 0.17999999}
+      - {x: -0.15957642, y: 0.17797607}
+      - {x: -0.22121868, y: 0.16865616}
+      - {x: -0.3062603, y: 0.10857278}
+      - {x: -0.30626053, y: -0.09092677}
+      - {x: -0.24626027, y: -0.153531}
+      - {x: -0.17843199, y: -0.18494976}
+      - {x: 0.004186392, y: -0.18386257}
+      - {x: 0.102597, y: -0.13426179}
+      - {x: 0.16436625, y: -0.18239391}
+      - {x: 0.26096836, y: -0.18756263}
+      - {x: 0.30878133, y: -0.12596849}
+      - {x: 0.3075208, y: -0.035458725}
+      - {x: 0.27987495, y: 0.03344763}
+  m_UseDelaunayMesh: 1
 --- !u!114 &2322058365100702352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +174,7 @@ MonoBehaviour:
   holdDuration: 1
   fadeDuration: 0.5
   outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  showFullOutline: 0
 --- !u!114 &8372247008724670010
 MonoBehaviour:
   m_ObjectHideFlags: 0

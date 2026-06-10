@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 556294836579780704}
   - component: {fileID: 4152630251129487648}
-  - component: {fileID: 9203629948648616179}
+  - component: {fileID: -5395032343564012659}
   - component: {fileID: 6093721888370286646}
   - component: {fileID: 8339121245396603286}
   m_Layer: 8
@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 2134456041204478544}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.65, y: 0.07, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 3.65, y: 0.085, z: 0}
+  m_LocalScale: {x: 1.1768, y: 1.1768, z: 1.1768}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,7 +84,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -8226805019780089580, guid: 7ae4322c3c8d53348ada11b64feb1f92, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,8 +94,8 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!61 &9203629948648616179
-BoxCollider2D:
+--- !u!60 &-5395032343564012659
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -132,14 +132,30 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.43, y: 0.36}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.08235605, y: 0.18209647}
+      - {x: -0.15812206, y: 0.15216509}
+      - {x: -0.21604832, y: 0.10911872}
+      - {x: -0.21290334, y: -0.0964564}
+      - {x: -0.16963243, y: -0.13902415}
+      - {x: -0.13717842, y: -0.15788223}
+      - {x: -0.07912809, y: -0.18104823}
+      - {x: 0.1033144, y: -0.17841941}
+      - {x: 0.1598599, y: -0.15389265}
+      - {x: 0.17862704, y: -0.13492577}
+      - {x: 0.21499999, y: -0.09138223}
+      - {x: 0.21590328, y: -0.03665013}
+      - {x: 0.21418142, y: 0.11007636}
+      - {x: 0.13647842, y: 0.16250095}
+      - {x: 0.07453616, y: 0.1831447}
+  m_UseDelaunayMesh: 1
 --- !u!114 &6093721888370286646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +174,7 @@ MonoBehaviour:
   holdDuration: 1
   fadeDuration: 0.5
   outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  showFullOutline: 0
 --- !u!114 &8339121245396603286
 MonoBehaviour:
   m_ObjectHideFlags: 0
