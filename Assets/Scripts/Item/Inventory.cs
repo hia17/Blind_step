@@ -57,6 +57,12 @@ public class Inventory : MonoBehaviour
 
         OnInventoryChanged?.Invoke(); // UI °»½Å
     }
+    public void RemoveItem(int index)
+    {
+        if (index < 0 || index >= items.Count) return;
+        items.RemoveAt(index);
+        OnInventoryChanged?.Invoke();
+    }
     public void UseItem(int index)
     {
         if (index < 0) return;
@@ -65,10 +71,12 @@ public class Inventory : MonoBehaviour
         if (data.itemType == ItemData.ItemType.Food)
         {
             Food(data.healAmount);
+            items.RemoveAt(index);
         }
         else if (data.itemType == ItemData.ItemType.badFood)
         { 
             BadFood(data.healAmount, data.buffTime);
+            items.RemoveAt(index);
         }
         else if (data.itemType == ItemData.ItemType.stick)
         {
@@ -81,9 +89,10 @@ public class Inventory : MonoBehaviour
         else if(data.itemType == ItemData.ItemType.medicine)
         {
             PlayerController.instance.GetMedicine();
+            items.RemoveAt(index);
         }
 
-        items.RemoveAt(index);
+        //items.RemoveAt(index);
         OnInventoryChanged?.Invoke();
     }
 

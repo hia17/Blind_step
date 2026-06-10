@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5af8bf4daea14cb4a8d4496c3ba576bb, type: 3}
   m_Name: Key
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: "\uC544\uC774\uD15C"
-  icon: {fileID: 0}
-  worldPrefab: {fileID: 0}
+  itemName: "\uAC70\uB300 \uC5F4\uC1E0"
+  icon: {fileID: 2011034731825299770, guid: 35502b327698e8c428d494cdae4d03a5, type: 3}
+  worldPrefab: {fileID: 3706487970187593523, guid: 8a6853fd47ed0cb4681f036459bb8a3e, type: 3}
   itemType: 3
-  description: 
+  keyID: hugeKey
+  description: "\uAC70\uB300\uD55C \uC5F4\uC1E0\uB2E4."
   healAmount: 0
   buffTime: 0

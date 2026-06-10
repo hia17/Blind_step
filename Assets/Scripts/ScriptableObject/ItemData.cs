@@ -19,6 +19,7 @@ public class ItemData : ScriptableObject
     public Sprite icon;                  // 인벤토리 UI에 표시될 아이콘(선택)
     public GameObject worldPrefab;       // 맵에 떨어질 때 생성될 프리팹
     public ItemType itemType;
+    public string keyID = null;
     [Header("설명")]
     [TextArea] public string description;
     public float healAmount = 0f;

@@ -21,12 +21,19 @@ public class DoorObject : MonoBehaviour
 
     [Header("문 설정")]
     [SerializeField] private Transform doorPivot;   // 회전 기준점 오브젝트
-    [SerializeField] private float closedAngle = 0f;
-    [SerializeField] private float openAngle = 90f;
+
+    private float baseAngle; // 배치된 원래 각도
+    private float openAngle; // 배치 각도 + 60
 
     private bool isOpen = false;
     private bool playerInRange = false;
 
+    private void Start()
+    {
+        Transform target = doorPivot != null ? doorPivot : transform;
+        baseAngle = target.localEulerAngles.z;
+        openAngle = baseAngle + 60f;
+    }
     private void Update()
     {
         CheckPlayerRange();
@@ -50,7 +57,8 @@ public class DoorObject : MonoBehaviour
             uiPos = center + closeuiOffset;
             canCloseUI.transform.position = uiPos;
         }
-        
+        if (canOpenUI != null) canOpenUI.transform.rotation = Quaternion.identity;
+        if (canCloseUI != null) canCloseUI.transform.rotation = Quaternion.identity;
         canOpenUI.SetActive(playerInRange && !isOpen);
         canCloseUI.SetActive(playerInRange && isOpen);
     }
@@ -69,15 +77,13 @@ public class DoorObject : MonoBehaviour
         ApplyDoorAngle();
     }
 
+
     private void ApplyDoorAngle()
     {
-        float targetAngle = isOpen ? openAngle : closedAngle;
-
-        // doorPivot이 지정된 경우 피벗 기준으로, 아니면 자기 자신 회전
+        float targetAngle = isOpen ? openAngle : baseAngle;
         Transform target = doorPivot != null ? doorPivot : transform;
         target.localRotation = Quaternion.Euler(0f, 0f, targetAngle);
     }
-
     // ── 에디터에서 범위 확인용 Gizmo ──────────────────────
     private void OnDrawGizmosSelected()
     {

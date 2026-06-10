@@ -24,6 +24,7 @@ public class InputManager : MonoBehaviour
     public static bool dropPressed;
     private InputAction dropAction;
 
+    public static bool anyKeyPressed;
 
 
     private Camera mainCamera;
@@ -62,7 +63,8 @@ public class InputManager : MonoBehaviour
         getPressed = getAction.WasPressedThisFrame();
         dropPressed = dropAction.WasPressedThisFrame();
         detectPressed = detectAction.IsPressed();
-     
+        anyKeyPressed = Keyboard.current.anyKey.wasPressedThisFrame || Mouse.current.leftButton.wasPressedThisFrame || Mouse.current.rightButton.wasPressedThisFrame;
+
     }
 
     public static void ActivatePlayerControls()
