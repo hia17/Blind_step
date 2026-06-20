@@ -67,7 +67,7 @@ public class DoorObject : MonoBehaviour
     // ── 입력 처리 ──────────────────────────────────────────
     private void HandleInput()
     {
-        if (playerInRange && InputManager.usePressed)
+        if (playerInRange && InputManager.getPressed)
             ToggleDoor();
     }
 
