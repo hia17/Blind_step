@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.UI; // ★ 추가됨: Image(게이지)를 다루기 위해 다시 가져왔습니다.
 
 public class GameManager : MonoBehaviour
 {
@@ -16,8 +16,8 @@ public class GameManager : MonoBehaviour
 
     [Header("UI 설정")]
     public TMP_Text dDayText;
-    public TMP_Text timeText;
-    public Image timeGauge;
+    // ★ 시간 텍스트(timeText) 변수는 삭제했습니다.
+    public Image timeGauge; // ★ 시계 게이지 복구 완료!
 
     [Header("플레이어 초기화 설정")]
     public Transform playerTransform;
@@ -50,6 +50,7 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver || isPassingDay) return; // ★ 페이드 중엔 타이머 정지
 
+        // ★ 조건문(if IsMoving)을 지우고 무조건 시간이 흐르도록 복구했습니다!
         currentTime -= Time.deltaTime;
 
         if (currentTime <= 0)
@@ -101,11 +102,9 @@ public class GameManager : MonoBehaviour
 
         Debug.Log($"{currentDay}일차 시작!");
 
-        // 3. 잠깐 대기 후 페이드인 (SceneFadeManager의 StartFadeIn이 alpha>=1 체크함)
+        // 3. 잠깐 대기 후 페이드인
         yield return new WaitForSeconds(0.5f);
         SceneFadeManager.instance.StartFadeIn();
-
-        // SceneFadeManager의 FadeIn 완료 시 자동으로 InputManager.ActivatePlayerControls() 호출됨
 
         isPassingDay = false;
     }
@@ -123,17 +122,10 @@ public class GameManager : MonoBehaviour
         if (dDayText != null)
             dDayText.text = $"D - {maxDays - currentDay + 1}";
 
-        if (timeText != null)
-        {
-            int minutes = Mathf.FloorToInt(currentTime / 60f);
-            int seconds = Mathf.FloorToInt(currentTime % 60f);
-            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        }
-
+        // ★ 게이지를 현재 시간 비율(남은 시간 / 전체 시간)에 맞춰 깎는 코드 복구!
         if (timeGauge != null)
             timeGauge.fillAmount = currentTime / dayDuration;
     }
-
 
     private void ActivateRandomTrigger()
     {

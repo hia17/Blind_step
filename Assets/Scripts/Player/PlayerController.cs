@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer spriteRenderer;
 
+    public bool IsMoving => rb != null && rb.linearVelocity.magnitude > 0.05f;
+
     [SerializeField] private float moveSpeed = 5f;
     private float xAxis;
     private float yAxis;
@@ -21,6 +23,9 @@ public class PlayerController : MonoBehaviour
 
     [Header("회전 설정")]
     [SerializeField] private float rotationSpeed = 20f;
+
+    [Header("기력 소모 설정")]
+    [SerializeField] private float staminaDrainRate = 2.0f; // 1초 이동 시 깎이는 기력량
 
     private Vector2 lastFootprintPos;
     private bool isLeftStep = true;
@@ -46,6 +51,7 @@ public class PlayerController : MonoBehaviour
     private Color originalColor;
 
     private Coroutine indigestCoroutine;
+
     private void Awake()
     {
         if(instance != null&&instance !=this)
@@ -239,10 +245,17 @@ public class PlayerController : MonoBehaviour
     #region 발자국
     private void HandleMovementState()
     {
-        bool isMoving = (xAxis != 0 || yAxis != 0);
+        // 방향키 입력이 들어오고 있는지 확인
+        bool hasInput = (xAxis != 0 || yAxis != 0);
 
-        if (isMoving)
+        if (hasInput)
         {
+            // ★ 수정됨: 방향키를 누르더라도 '실제로 이동 중(IsMoving)'일 때만 기력 소모
+            if (IsMoving && PlayerHealth.Instance != null)
+            {
+                PlayerHealth.Instance.ConsumeStamina(staminaDrainRate * Time.deltaTime);
+            }
+
             spriteRenderer.enabled = false;
             wasMoving = true;
 
@@ -258,13 +271,10 @@ public class PlayerController : MonoBehaviour
             // 방금 막 멈춘 '그 순간'
             if (wasMoving)
             {
-                // 지금 멈춘 위치와 마지막 한 발자국 사이의 거리를 계산합니다.
                 float distanceToLast = Vector2.Distance(transform.position, lastFootprintPos);
 
-                // 만약 그 거리가 보폭(stepDistance)의 60%보다 짧아서 너무 겹친다면
                 if (distanceToLast < (stepDistance * 0.6f) && lastSpawnedFootprint != null)
                 {
-                    // 겹치는 마지막 한 발자국만 제거하여 양발자국 하나만 깔끔하게 남깁니다.
                     Destroy(lastSpawnedFootprint);
                 }
 

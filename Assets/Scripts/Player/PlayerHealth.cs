@@ -66,6 +66,20 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    // 걸을 때 피격 이펙트 없이 조용히 기력만 소모하는 함수
+    public void ConsumeStamina(float amount)
+    {
+        currentHealth -= amount;
+        if (currentHealth < 0) currentHealth = 0;
+
+        UpdateHealthUI();
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
     private void Die()
     {
         Debug.Log("플레이어 체력 0! 다음 날로 넘어갑니다.");
