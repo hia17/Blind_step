@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // UI(체력바)를 다루기 위해 꼭 필요해!
+using UnityEngine.UI; // UI를 다루기 위해 꼭 필요해!
 
 public class PlayerHealth : MonoBehaviour
 {
@@ -11,16 +11,15 @@ public class PlayerHealth : MonoBehaviour
     public float currentHealth;
 
     [Header("UI 설정")]
-    public Slider healthBar; // 유니티의 체력바 UI
+    // ★ Slider 대신 Image로 변경되었습니다!
+    public Image healthBarFill;
 
     private void Awake()
     {
         if (Instance != null && Instance != this) { Destroy(gameObject); return; }
         Instance = this;
-        if (healthBar == null)
-        {
-            healthBar = GameObject.FindWithTag("HealthBar").GetComponent<Slider>();
-        }
+
+        // (주의: 기존에 있던 FindWithTag 코드는 Image 방식에서 오류를 낼 수 있어 깔끔하게 지웠습니다. 에디터에서 직접 연결해 주시면 됩니다!)
     }
 
     private void Start()
@@ -29,7 +28,7 @@ public class PlayerHealth : MonoBehaviour
         UpdateHealthUI(); // 시작할 때 체력바 꽉 채우기
     }
 
-    // 데미지를 입을 때 부르는 함수 (장애물, 상한 음식)
+    // 데미지를 입을 때 부르는 함수
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -40,14 +39,14 @@ public class PlayerHealth : MonoBehaviour
         StartCoroutine(PlayerController.instance.HitLightEffect());
         Debug.Log($"데미지 {damage} 받음. 현재 체력: {currentHealth}");
 
-        // 체력이 0이 되면 게임오버 처리 (기획서의 실패 조건!)
+        // 체력이 0이 되면 게임오버 처리
         if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    // 회복할 때 부르는 함수 (정상 음식)
+    // 회복할 때 부르는 함수
     public void Heal(float amount)
     {
         currentHealth += amount;
@@ -60,10 +59,10 @@ public class PlayerHealth : MonoBehaviour
     // 체력바 UI의 길이를 현재 체력에 맞게 조절
     private void UpdateHealthUI()
     {
-        if (healthBar != null)
+        // ★ Image의 fillAmount(0~1 비율)를 사용하여 체력을 깎습니다.
+        if (healthBarFill != null)
         {
-            healthBar.maxValue = maxHealth;
-            healthBar.value = currentHealth;
+            healthBarFill.fillAmount = currentHealth / maxHealth;
         }
     }
 
