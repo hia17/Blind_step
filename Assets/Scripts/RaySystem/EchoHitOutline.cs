@@ -49,77 +49,123 @@ public class EchoHitOutline : MonoBehaviour
         //activeCoroutines.Add(c);
     }
 
+    //private IEnumerator ShowOutline(Vector2 hitPoint, Vector2 hitNormal)
+    //{
+    //    // 충돌면의 접선 방향 (법선을 90도 회전)
+    //    Vector2 tangent = new Vector2(-hitNormal.y, hitNormal.x);
+    //    Collider2D col = GetComponent<Collider2D>();
+
+    //    List<LineRenderer> lrs = new List<LineRenderer>();
+
+    //    if (showFullOutline && col is PolygonCollider2D poly)
+    //    {
+    //        // path마다 별도 LineRenderer
+    //        for (int pi = 0; pi < poly.pathCount; pi++)
+    //        {
+    //            Vector2[] path = poly.GetPath(pi);
+    //            if (path.Length < 2) continue;
+
+    //            LineRenderer lr = CreateLineRenderer();
+    //            activeRenderers.Add(lr);
+    //            lrs.Add(lr);
+
+    //            // path 포인트를 월드좌표로 변환 + 닫기
+    //            Vector3[] points = new Vector3[path.Length + 1];
+    //            for (int i = 0; i < path.Length; i++)
+    //                points[i] = col.transform.TransformPoint(path[i]);
+    //            points[path.Length] = points[0]; // 닫힌 루프
+
+    //            lr.positionCount = points.Length;
+    //            lr.SetPositions(points);
+    //        }
+    //    }
+    //    else
+    //    {
+    //        LineRenderer lr = CreateLineRenderer();
+    //        activeRenderers.Add(lr);
+    //        lrs.Add(lr);
+
+    //        // --- 외곽선 포인트 계산 ---
+    //        // 충돌 지점 기준 ±outlineLength/2 구간을 오브젝트 외곽선 위에 샘플링
+    //        Collider2D c = GetComponent<Collider2D>();
+    //        Vector3[] points = showFullOutline
+    //        ? SampleFullOutlinePoints(c, outlinePoints)
+    //        : SampleOutlinePoints(c, hitPoint, tangent, outlineLength, outlinePoints);
+
+    //        lr.positionCount = points.Length;
+    //        lr.SetPositions(points);
+    //    }
+
+    //    foreach (var lr in lrs) SetLineAlpha(lr, 1f);
+    //    yield return new WaitForSeconds(holdDuration);
+
+    //    // Hold 단계 (완전 불투명)
+
+
+
+    //    // FadeOut 단계
+    //    float elapsed = 0f;
+    //    while (elapsed < fadeDuration)
+    //    {
+    //        elapsed += Time.deltaTime;
+    //        float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
+    //        foreach (var lr in lrs) SetLineAlpha(lr, alpha);
+    //        yield return null;
+    //    }
+
+    //    // 정리
+    //    foreach (var lr in lrs)
+    //    {
+    //        activeRenderers.Remove(lr);
+    //        if (lr != null) Destroy(lr.gameObject);
+    //    }
+    //}
+
     private IEnumerator ShowOutline(Vector2 hitPoint, Vector2 hitNormal)
     {
-        // 충돌면의 접선 방향 (법선을 90도 회전)
         Vector2 tangent = new Vector2(-hitNormal.y, hitNormal.x);
         Collider2D col = GetComponent<Collider2D>();
 
+        // hitPoint를 물체의 "로컬 좌표"로 변환해서 저장
+        // → 물체가 움직여도 상대적 위치(어느 부분에 닿았는지)는 유지됨
+        Vector2 localHitPoint = col.transform.InverseTransformPoint(hitPoint);
+
         List<LineRenderer> lrs = new List<LineRenderer>();
+        LineRenderer lr = CreateLineRenderer();
+        activeRenderers.Add(lr);
+        lrs.Add(lr);
 
-        if (showFullOutline && col is PolygonCollider2D poly)
+        float totalDuration = holdDuration + fadeDuration;
+        float elapsed = 0f;
+
+        while (elapsed < totalDuration)
         {
-            // path마다 별도 LineRenderer
-            for (int pi = 0; pi < poly.pathCount; pi++)
-            {
-                Vector2[] path = poly.GetPath(pi);
-                if (path.Length < 2) continue;
+            // 매 프레임 현재 월드 위치로 hitPoint 재계산
+            Vector2 currentHitPoint = col.transform.TransformPoint(localHitPoint);
 
-                LineRenderer lr = CreateLineRenderer();
-                activeRenderers.Add(lr);
-                lrs.Add(lr);
-
-                // path 포인트를 월드좌표로 변환 + 닫기
-                Vector3[] points = new Vector3[path.Length + 1];
-                for (int i = 0; i < path.Length; i++)
-                    points[i] = col.transform.TransformPoint(path[i]);
-                points[path.Length] = points[0]; // 닫힌 루프
-
-                lr.positionCount = points.Length;
-                lr.SetPositions(points);
-            }
-        }
-        else
-        {
-            LineRenderer lr = CreateLineRenderer();
-            activeRenderers.Add(lr);
-            lrs.Add(lr);
-
-            // --- 외곽선 포인트 계산 ---
-            // 충돌 지점 기준 ±outlineLength/2 구간을 오브젝트 외곽선 위에 샘플링
-            Collider2D c = GetComponent<Collider2D>();
             Vector3[] points = showFullOutline
-            ? SampleFullOutlinePoints(c, outlinePoints)
-            : SampleOutlinePoints(c, hitPoint, tangent, outlineLength, outlinePoints);
+                ? SampleFullOutlinePoints(col, outlinePoints)
+                : SampleOutlinePoints(col, currentHitPoint, tangent, outlineLength, outlinePoints);
 
             lr.positionCount = points.Length;
             lr.SetPositions(points);
-        }
 
-        foreach (var lr in lrs) SetLineAlpha(lr, 1f);
-        yield return new WaitForSeconds(holdDuration);
+            // 알파 계산: hold 구간(0~holdDuration)은 1, 그 이후 fade
+            float alpha = elapsed < holdDuration
+                ? 1f
+                : Mathf.Lerp(1f, 0f, (elapsed - holdDuration) / fadeDuration);
 
-        // Hold 단계 (완전 불투명)
+            SetLineAlpha(lr, alpha);
 
-
-
-        // FadeOut 단계
-        float elapsed = 0f;
-        while (elapsed < fadeDuration)
-        {
             elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, elapsed / fadeDuration);
-            foreach (var lr in lrs) SetLineAlpha(lr, alpha);
             yield return null;
         }
 
-        // 정리
-        foreach (var lr in lrs)
-        {
-            activeRenderers.Remove(lr);
-            if (lr != null) Destroy(lr.gameObject);
-        }
+        activeRenderers.Remove(lr);
+        if (lr != null) Destroy(lr.gameObject);
     }
+
+
 
     /// <summary>
     /// 콜라이더 외곽선 위에서 hitPoint 근처 구간을 샘플링합니다.
