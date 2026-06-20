@@ -14,6 +14,8 @@ public class KeyLockObject : ObjectTrigger
     [Header("잠금 해제 UI")]
     [SerializeField] private GameObject noKeyUI;      // 열쇠 없을 때 잠깐 표시
     [SerializeField] private float noKeyUIDuration = 1.5f;
+    [SerializeField] private GameObject keyUsedUI;
+    [SerializeField] private float keyUsedUIDuration = 1.5f;
 
     [Header("문 교체")]
     [SerializeField] private Collider2D lockedDoorCollider;
@@ -30,8 +32,13 @@ public class KeyLockObject : ObjectTrigger
             noKeyUI.transform.rotation = Quaternion.identity;
             noKeyUI.SetActive(false);
         }
+        if (keyUsedUI != null)
+        {
+            keyUsedUI.transform.rotation = Quaternion.identity;
+            keyUsedUI.SetActive(false);
+        }
 
-            
+
     }
     protected override void Update()
     {
@@ -53,7 +60,10 @@ public class KeyLockObject : ObjectTrigger
             {
                 Inventory.Instance.RemoveItem(i);
                 isUnlocked = true;
-                SwapDoor();
+                
+                if (keyUsedUI != null)
+                    StartCoroutine(ShowKeyUsedUI());
+                
                 return;
             }
         }
@@ -81,6 +91,14 @@ public class KeyLockObject : ObjectTrigger
             noKeyUI.SetActive(false);
             IsShowingUI = false;
         }
+    }
+    private System.Collections.IEnumerator ShowKeyUsedUI()
+    {
+        keyUsedUI.SetActive(true);
+        yield return new WaitForSeconds(keyUsedUIDuration);
+        keyUsedUI.SetActive(false);
+        IsShowingUI = false;
+        SwapDoor();
     }
     protected override void OnAnyKeyWhileUI()
     {

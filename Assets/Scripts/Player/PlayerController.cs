@@ -65,13 +65,14 @@ public class PlayerController : MonoBehaviour
         lastFootprintPos = transform.position;
         hitLight = GetComponentInChildren<Light2D>();
         originalColor = hitLight.color;
+        SetMoveSpeed();
     }
 
     void Update()
     {
         GetInput();
 
-
+        
         HandleMovementState();
     }
 
@@ -179,8 +180,8 @@ public class PlayerController : MonoBehaviour
 
         if (PlayerStateList.indigest)
         {
-            moveSpeed /= 2f;
-            ChangeMoveSpeed(moveSpeed);
+            
+            ChangeMoveSpeed(moveSpeed/2f);
             if(indigestCoroutine == null)
             {
                 indigestCoroutine = StartCoroutine(ShouldGoToToilet(hp,t));
@@ -297,6 +298,7 @@ public class PlayerController : MonoBehaviour
 
             // 발자국을 찍고, 그 발자국을 '마지막 발자국'으로 기억해둡니다.
             lastSpawnedFootprint = Instantiate(prefabToSpawn, spawnPosition, transform.rotation);
+            SoundFXManager.instance.PlaySoundFXClip(SoundFXManager.SFX.footstep, transform, 0.5f); // 여기
 
             isLeftStep = !isLeftStep;
             lastFootprintPos = transform.position;

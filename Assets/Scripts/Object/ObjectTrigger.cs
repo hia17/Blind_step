@@ -99,7 +99,7 @@ public class ObjectTrigger : MonoBehaviour
     // ── 입력 처리 ─────────────────────────────────────────
     private void HandleInput()
     {
-        if (playerInRange && !isInspecting && InputManager.getPressed)
+        if (playerInRange && !isInspecting && InputManager.getPressed&& !InputConsumer.IsConsumed)
         {
 
             inspectCoroutine = StartCoroutine(InspectRoutine());
@@ -109,6 +109,7 @@ public class ObjectTrigger : MonoBehaviour
     // ── 조사 코루틴 ───────────────────────────────────────
     private IEnumerator InspectRoutine()
     {
+        InputManager.DeactivatePlayerControls();
         isInspecting = true;
 
         Vector3 center = detectionCenter != null ? detectionCenter.position : transform.position;
@@ -130,6 +131,7 @@ public class ObjectTrigger : MonoBehaviour
 
         isInspecting = false;
         inspectCoroutine = null;
+        InputManager.ActivatePlayerControls();
     }
 
     // ── 자식 클래스에서 반드시 구현 ───────────────────────

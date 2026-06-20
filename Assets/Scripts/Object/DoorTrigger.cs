@@ -26,6 +26,7 @@ public class DoorObject : MonoBehaviour
     private float openAngle; // 배치 각도 + 60
 
     private bool isOpen = false;
+    public bool IsOpen => isOpen;
     private bool playerInRange = false;
 
     private void Start()
@@ -75,6 +76,7 @@ public class DoorObject : MonoBehaviour
     {
         isOpen = !isOpen;
         ApplyDoorAngle();
+        SoundFXManager.instance.PlaySoundFXClip(SoundFXManager.SFX.door, transform, 0.5f);
     }
 
 

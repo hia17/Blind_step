@@ -61,6 +61,7 @@ public class ItemPickupDetector : MonoBehaviour
         }
         if (InputManager.getPressed && nearestItem != null)
         {
+            InputConsumer.Consume();
             nearestItem.PickUp();
             nearestItem = null;
             canGetUI.SetActive(false);

@@ -65,7 +65,7 @@ public class SceneFadeManager : MonoBehaviour
             {
                 IsFadingIn = false;
                 InputManager.ActivatePlayerControls();
-                ReturnSpeedSettings();
+                //ReturnSpeedSettings();
             }
         }
      
