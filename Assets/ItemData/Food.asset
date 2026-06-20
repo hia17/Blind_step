@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Food
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uD1B5\uC870\uB9BC"
-  icon: {fileID: -8226805019780089580, guid: 7ae4322c3c8d53348ada11b64feb1f92, type: 3}
+  icon: {fileID: 4389954648199977022, guid: 5160530234de60e4692d0dcc1c992ddf, type: 3}
   worldPrefab: {fileID: 2134456041204478544, guid: 7456465b47a03e64f92c83c87391022a, type: 3}
   itemType: 0
   keyID: 

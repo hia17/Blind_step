@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Medicine
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uC57D"
-  icon: {fileID: -485646294723371877, guid: 16fe2dab852b5454c8fec7664be83bb8, type: 3}
+  icon: {fileID: -6657871503823875438, guid: 369b1887fc5483f45ab647ecd71716c1, type: 3}
   worldPrefab: {fileID: 0}
   itemType: 4
   keyID: 
