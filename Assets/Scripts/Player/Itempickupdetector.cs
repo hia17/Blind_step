@@ -68,7 +68,12 @@ public class ItemPickupDetector : MonoBehaviour
         }
 
         if (InputManager.dropPressed&& Inventory.Instance.Items.Count != 0)
-            Inventory.Instance.DropItem(0, transform.position);
+        {
+            Vector3 pos = transform.position;
+            pos.y += 1f;
+            Inventory.Instance.DropItem(0, pos);
+        }
+            
 
         if (InputManager.usePressed && !DoorObject.isDetected&& Inventory.Instance.Items.Count != 0)
             Inventory.Instance.UseItem(0);

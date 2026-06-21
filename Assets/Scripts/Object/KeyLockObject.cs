@@ -116,5 +116,6 @@ public class KeyLockObject : ObjectTrigger
             Quaternion spawnRot = doorSpawnPoint != null ? doorSpawnPoint.rotation : Quaternion.identity;
             Instantiate(unlockedDoorPrefab, spawnPos, spawnRot);
         }
+        Destroy(gameObject);
     }
 }

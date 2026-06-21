@@ -30,6 +30,11 @@ public class ObjectTrigger : MonoBehaviour
     [Header("조사 설정")]
     [SerializeField] private float inspectDuration = 2f;
 
+    protected virtual bool CanInteract()
+    {
+        return true;
+    }
+
     private bool playerInRange = false;
     private bool isInspecting = false;
     private Coroutine inspectCoroutine;
@@ -88,7 +93,7 @@ public class ObjectTrigger : MonoBehaviour
         if (inspectPromptUI != null)
         {
             inspectPromptUI.transform.position = uiPos;
-            inspectPromptUI.SetActive(playerInRange);
+            inspectPromptUI.SetActive(playerInRange && CanInteract());
         }
         if (inspectingUI != null)
         {
@@ -99,6 +104,7 @@ public class ObjectTrigger : MonoBehaviour
     // ── 입력 처리 ─────────────────────────────────────────
     private void HandleInput()
     {
+        if (!CanInteract()) return;
         if (playerInRange && !isInspecting && InputManager.getPressed&& !InputConsumer.IsConsumed)
         {
 
