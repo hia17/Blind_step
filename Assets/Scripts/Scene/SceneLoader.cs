@@ -55,6 +55,7 @@ public class SceneLoader : MonoBehaviour
 
     // --- 아래는 기존 기능들 ---
 
+
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
