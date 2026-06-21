@@ -19,6 +19,6 @@ public class WatcherSpawnTrigger : MonoBehaviour
         Instantiate(watcherPrefab, pos, Quaternion.identity);
 
         Deactivate(); // ★ 소환 후 비활성화 (중복 소환 방지)
-        GameManager.Instance.OnWatcherTriggered(); // ★ 오늘 소환 완료 알림
+        //GameManager.Instance.OnWatcherTriggered(); // ★ 오늘 소환 완료 알림
     }
 }
