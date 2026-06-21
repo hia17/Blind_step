@@ -275,7 +275,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Space - \uB2EB\uAE30\n"
+  m_text: "E - \uB2EB\uAE30\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d2b38e52930780428011abb9fb80a52, type: 2}
   m_sharedMaterial: {fileID: 6967578422815155229, guid: 4d2b38e52930780428011abb9fb80a52, type: 2}
@@ -671,7 +671,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Space - \uC5F4\uAE30"
+  m_text: "E - \uC5F4\uAE30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 4d2b38e52930780428011abb9fb80a52, type: 2}
   m_sharedMaterial: {fileID: 6967578422815155229, guid: 4d2b38e52930780428011abb9fb80a52, type: 2}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
   itemName: "\uC740 \uC5F4\uC1E0"
   icon: {fileID: 251441296119955511, guid: 263ad014ca2e9c84f8f96ccf12f29ed7, type: 3}
-  worldPrefab: {fileID: 237143343148924340, guid: 091d7fff2293c2a409e87f5c79e69fcc, type: 3}
+  worldPrefab: {fileID: 3062748879940526838, guid: 026807641daf54b49b563b127057630c, type: 3}
   itemType: 3
   keyID: Second_Key
   description: "\uBCF5\uB3C4\uB85C \uB098\uAC08 \uC218 \uC788\uB294 \uC5F4\uC1E0\uB2E4."

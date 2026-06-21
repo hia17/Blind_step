@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1164372012086747517}
   - component: {fileID: 2664572282358031140}
   m_Layer: 0
-  m_Name: lockdoor_2Key
+  m_Name: SilverKey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

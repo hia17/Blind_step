@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5af8bf4daea14cb4a8d4496c3ba576bb, type: 3}
-  m_Name: Key 3
+  m_Name: Key 5
   m_EditorClassIdentifier: Assembly-CSharp::ItemData
-  itemName: "\uAC80\uC815 \uC5F4\uC1E0"
-  icon: {fileID: 2011034731825299770, guid: 35502b327698e8c428d494cdae4d03a5, type: 3}
-  worldPrefab: {fileID: 3706487970187593523, guid: 8a6853fd47ed0cb4681f036459bb8a3e, type: 3}
+  itemName: "\uC61B\uB0A0 \uC5F4\uC1E0"
+  icon: {fileID: 2485089579581845756, guid: d90b665622836b64e924d27f7dcce7f9, type: 3}
+  worldPrefab: {fileID: 4733136128564181037, guid: 82c279cc00e145946b4b81de762a4077, type: 3}
   itemType: 3
-  keyID: Third_Key
-  description: "1\uCE35\uC73C\uB85C \uAC08 \uC218 \uC788\uB294 \uC5F4\uC1E0\uC774\uB2E4."
+  keyID: Fifth_Key
+  description: "\uC61B\uB0A0\uC5D0 \uC4F0\uB358 \uC5F4\uC1E0\uC774\uB2E4."
   healAmount: 0
   buffTime: 0
