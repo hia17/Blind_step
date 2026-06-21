@@ -10,15 +10,17 @@ public class TriggerInteractionBase : MonoBehaviour, IInteractable
         Player = GameObject.FindGameObjectWithTag("Player"); 
         if(Player != null)
         {
+            Debug.Log(Player.transform.position);
             Debug.Log("플레이어찾음");
         }
     }
 
     protected virtual void Update()
     {
+       
         if (CanInteract)
         {
-            Debug.Log("can");
+            
             if (InputManager.usePressed)
             {
                 Interact();
@@ -29,7 +31,7 @@ public class TriggerInteractionBase : MonoBehaviour, IInteractable
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == Player)
+        if (collision.gameObject.CompareTag("Player")) 
         {
             Debug.Log("플레이어찾음");
             CanInteract = true;
@@ -37,7 +39,7 @@ public class TriggerInteractionBase : MonoBehaviour, IInteractable
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject == Player)
+        if (collision.gameObject.CompareTag("Player"))
         {
             CanInteract = false;
         }

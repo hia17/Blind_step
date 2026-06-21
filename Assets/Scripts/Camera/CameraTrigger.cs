@@ -40,7 +40,10 @@ public class CameraTrigger : MonoBehaviour
     private IEnumerator CameraSequence()
     {
         isPlaying = true;
-
+        if (!eventCamera.gameObject.activeSelf)
+        {
+            eventCamera.gameObject.SetActive(true);
+        }
         // 항상 시작 위치로 초기화
         eventCamera.transform.position = startPoint.position;
 
@@ -71,7 +74,7 @@ public class CameraTrigger : MonoBehaviour
         // 원래 카메라 복귀
         playerCamera.Priority = activePriority;
         eventCamera.Priority = inactivePriority;
-
+        eventCamera.gameObject.SetActive(false);
         isPlaying = false;
     }
 

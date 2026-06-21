@@ -13,7 +13,7 @@ public class FloorTransitionTrigger : TriggerInteractionBase
     [SerializeField] private float fadeOutSpeed = 5f;
     [SerializeField] private float fadeInSpeed = 5f;
     [SerializeField] private float holdDuration = 0.3f;
-
+  
     private bool _isTransitioning = false;
 
     protected override void Start() => base.Start();
@@ -38,6 +38,7 @@ public class FloorTransitionTrigger : TriggerInteractionBase
 
     private IEnumerator DoTransition()
     {
+      
         _isTransitioning = true;
 
         InputManager.DeactivatePlayerControls();

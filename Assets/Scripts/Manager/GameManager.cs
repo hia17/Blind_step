@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VectorGraphics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -28,6 +30,9 @@ public class GameManager : MonoBehaviour
     [Header("트리거 그룹 설정")]
     [SerializeField] private WatcherTriggerArray[] triggerGroups;
 
+    [Header("전환씬")]
+    [SerializeField] private string gameoverScene;
+ 
     private List<int>[] _usedIndicesPerGroup;
 
     private void Awake()
@@ -112,6 +117,7 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         isPassingDay = false;
         Debug.Log("게임 오버!");
+        SceneManager.LoadScene(gameoverScene);
         // TODO: 게임오버 UI 표시
     }
 
