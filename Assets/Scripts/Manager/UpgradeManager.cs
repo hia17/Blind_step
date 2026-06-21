@@ -92,9 +92,9 @@ public class UpgradeManager : MonoBehaviour
 
     private void UpdateUI()
     {
-        pointText.text = $"보유 포인트 : {currentPoints}";
-        staminaLevelText.text = $"Lv.{PlayerPrefs.GetInt("StaminaLevel", 0)}";
-        waveCountLevelText.text = $"Lv.{PlayerPrefs.GetInt("WaveCountLevel", 0)}";
-        waveSpeedLevelText.text = $"Lv.{PlayerPrefs.GetInt("WaveSpeedLevel", 0)}";
+        pointText.text = $"현재 보유 포인트 : {currentPoints}";
+        staminaLevelText.text = $"기력: Lv.{PlayerPrefs.GetInt("StaminaLevel", 0)}";
+        waveCountLevelText.text = $"지팡이 파형 갯수: Lv.{PlayerPrefs.GetInt("WaveCountLevel", 0)}";
+        waveSpeedLevelText.text = $"지팡이 파형 발사 속도: Lv.{PlayerPrefs.GetInt("WaveSpeedLevel", 0)}";
     }
 }
