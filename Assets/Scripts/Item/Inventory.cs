@@ -91,6 +91,10 @@ public class Inventory : MonoBehaviour
             PlayerController.instance.GetMedicine();
             items.RemoveAt(index);
         }
+        else if (data.itemType == ItemData.ItemType.obj)
+        {
+            return;
+        }
 
         //items.RemoveAt(index);
         OnInventoryChanged?.Invoke();
