@@ -17,6 +17,6 @@ MonoBehaviour:
   worldPrefab: {fileID: 3352918589259623853, guid: e067de47fcbf13f4cae6845afa293b18, type: 3}
   itemType: 3
   keyID: Fourth_Key
-  description: "\uC190\uC7A1\uC774\uAC00 \uB124\uBAA8\uB09C \uC5F4\uC1E0\uC774\uB2E4."
+  description: "\uC190\uC7A1\uC774\uAC00 \uB124\uBAA8\uB09C \uC5F4\uC1E0\uB2E4."
   healAmount: 0
   buffTime: 0
