@@ -17211,7 +17211,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 844258564}
   canCloseUI: {fileID: 1354109674}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!212 &153862492
 SpriteRenderer:
@@ -18908,7 +18908,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 1622322647}
   canCloseUI: {fileID: 1920823679}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!212 &266976277
 SpriteRenderer:
@@ -24923,7 +24923,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 330828428}
   canCloseUI: {fileID: 1111919421}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!212 &767437319
 SpriteRenderer:
@@ -69967,7 +69967,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489118511894379}
   canCloseUI: {fileID: 5749845357291181734}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686663712705385
 MonoBehaviour:
@@ -69989,7 +69989,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489118769057026}
   canCloseUI: {fileID: 5749845357011473615}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686663996856774
 MonoBehaviour:
@@ -70011,7 +70011,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489119053209517}
   canCloseUI: {fileID: 5749845356725257824}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686664147788826
 MonoBehaviour:
@@ -70033,7 +70033,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489118935704177}
   canCloseUI: {fileID: 5749845356842777532}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686664533920094
 MonoBehaviour:
@@ -70055,7 +70055,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489119589748533}
   canCloseUI: {fileID: 5749845356188194552}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686664664907223
 MonoBehaviour:
@@ -70077,7 +70077,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489119452822460}
   canCloseUI: {fileID: 5749845356352922225}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686664975062391
 MonoBehaviour:
@@ -70099,7 +70099,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489120031413020}
   canCloseUI: {fileID: 5749845355757505233}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686665115669117
 MonoBehaviour:
@@ -70121,7 +70121,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489119907779606}
   canCloseUI: {fileID: 5749845355902111195}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686665318500574
 MonoBehaviour:
@@ -70143,7 +70143,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489120373804725}
   canCloseUI: {fileID: 5749845355428747128}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!114 &287686665403916036
 MonoBehaviour:
@@ -70165,7 +70165,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489120196024687}
   canCloseUI: {fileID: 5749845355586633890}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!222 &351849487961614094
 CanvasRenderer:

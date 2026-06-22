@@ -463,7 +463,7 @@ MonoBehaviour:
   canOpenUI: {fileID: 4022489119766722005}
   canCloseUI: {fileID: 5749845356029553688}
   openuiOffset: {x: 0, y: 0, z: 0}
-  closeuiOffset: {x: 2, y: 0, z: 0}
+  closeuiOffset: {x: 0, y: 0, z: 0}
   doorPivot: {fileID: 0}
 --- !u!61 &5564218930329725368
 BoxCollider2D:

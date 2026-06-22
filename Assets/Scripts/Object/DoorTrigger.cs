@@ -37,8 +37,12 @@ public class DoorObject : MonoBehaviour
     }
     private void Update()
     {
-        CheckPlayerRange();
+        //CheckPlayerRange();
         HandleInput();
+    }
+    private void LateUpdate()
+    {
+        CheckPlayerRange();
     }
 
     // ── 범위 감지 ──────────────────────────────────────────
@@ -50,16 +54,18 @@ public class DoorObject : MonoBehaviour
         Collider2D hit = Physics2D.OverlapCircle(center, interactRadius, playerLayer);
         playerInRange = (hit != null);
         isDetected = playerInRange;
-        if (playerInRange)
-        {
-            Debug.Log("door");
-            Vector3 uiPos = center + openuiOffset;
-            canOpenUI.transform.position = uiPos;
-            uiPos = center + closeuiOffset;
-            canCloseUI.transform.position = uiPos;
-        }
-        if (canOpenUI != null) canOpenUI.transform.rotation = Quaternion.identity;
-        if (canCloseUI != null) canCloseUI.transform.rotation = Quaternion.identity;
+        //if (playerInRange)
+        //{
+        //    Debug.Log("door");
+        //    Vector3 uiPos = center + openuiOffset;
+        //    canOpenUI.transform.position = uiPos;
+        //    uiPos = center + closeuiOffset;
+        //    canCloseUI.transform.position = uiPos;
+        //}
+        canOpenUI.transform.SetPositionAndRotation(center + openuiOffset, Quaternion.identity);
+        canCloseUI.transform.SetPositionAndRotation(center + closeuiOffset, Quaternion.identity);
+        //if (canOpenUI != null) canOpenUI.transform.rotation = Quaternion.identity;
+        //if (canCloseUI != null) canCloseUI.transform.rotation = Quaternion.identity;
         canOpenUI.SetActive(playerInRange && !isOpen);
         canCloseUI.SetActive(playerInRange && isOpen);
     }
