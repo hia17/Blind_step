@@ -1,12 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
-// 각 인벤토리 슬롯 Image 오브젝트에 부착
 public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private ItemData itemData;
+    private bool isHovering = false;
 
-    // InventoryUI에서 아이템 정보를 주입
     public void SetItem(ItemData data)
     {
         itemData = data;
@@ -15,18 +16,45 @@ public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public void ClearItem()
     {
         itemData = null;
+        if (isHovering)
+        {
+            TooltipUI.Instance.Hide();
+            isHovering = false;
+        }
     }
 
-    // 마우스가 슬롯 위에 올라왔을 때
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (itemData == null) return;
+        isHovering = true;
         TooltipUI.Instance.Show(itemData);
     }
 
-    // 마우스가 슬롯에서 벗어났을 때
     public void OnPointerExit(PointerEventData eventData)
     {
+        isHovering = false;
         TooltipUI.Instance.Hide();
+    }
+
+    private void Update()
+    {
+        // IPointerEnterHandler 백업용 - 빌드에서 안될 때 대비
+        RectTransform rect = GetComponent<RectTransform>();
+        bool mouseOver = RectTransformUtility.RectangleContainsScreenPoint(
+            rect,
+            Mouse.current.position.ReadValue(),
+            null
+        );
+
+        if (mouseOver && !isHovering && itemData != null)
+        {
+            isHovering = true;
+            TooltipUI.Instance.Show(itemData);
+        }
+        else if (!mouseOver && isHovering)
+        {
+            isHovering = false;
+            TooltipUI.Instance.Hide();
+        }
     }
 }
