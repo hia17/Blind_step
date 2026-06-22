@@ -13,6 +13,7 @@ public class ItemData : ScriptableObject
         key = 3,
         medicine = 4,
         obj = 5,
+        
 
     }
     [Header("기본 정보")]

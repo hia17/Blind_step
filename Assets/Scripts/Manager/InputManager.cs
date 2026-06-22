@@ -26,6 +26,8 @@ public class InputManager : MonoBehaviour
 
     public static bool anyKeyPressed;
 
+    public static bool settingopenPressed;
+    private InputAction settingAction;
 
     private Camera mainCamera;
 
@@ -45,7 +47,7 @@ public class InputManager : MonoBehaviour
         getAction = playerInput.actions["Get"];
         dropAction = playerInput.actions["Drop"];
         detectAction = playerInput.actions["Detect"];
-
+        settingAction = playerInput.actions["Setting"];
     }
 
     private void Update()
@@ -55,7 +57,7 @@ public class InputManager : MonoBehaviour
         moveDir = moveAction.ReadValue<Vector2>();
 
         usePressed = useAction.WasPressedThisFrame();
-       
+        settingopenPressed = settingAction.WasPressedThisFrame();
 
         mouseScreenPos = Mouse.current.position.ReadValue();
         mouseWorldPos = mainCamera.ScreenToWorldPoint(mouseScreenPos);

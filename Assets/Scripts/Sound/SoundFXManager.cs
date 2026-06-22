@@ -9,6 +9,7 @@ public class SoundFXManager : MonoBehaviour
     {
         door = 0,
         footstep = 1,
+        endingdoor =2,
     }
     public static SoundFXManager instance;
     [SerializeField] private AudioSource soundFXObject;

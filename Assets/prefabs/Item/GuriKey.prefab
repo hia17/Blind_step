@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3393056887162430259}
   - component: {fileID: 2962060163807789644}
-  - component: {fileID: 6948701224046187063}
   - component: {fileID: 9088513535429497922}
   - component: {fileID: 6491492929642726130}
+  - component: {fileID: 7482017755738558615}
   m_Layer: 8
   m_Name: GuriKey
   m_TagString: Untagged
@@ -94,7 +94,39 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!60 &6948701224046187063
+--- !u!114 &9088513535429497922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237143343148924340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb8780c2a1654754f94bd89541eeedfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EchoHitOutline
+  outlineLength: 1.5
+  outlinePoints: 40
+  outlineWidth: 0.05
+  holdDuration: 1.2
+  fadeDuration: 0.5
+  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  showFullOutline: 1
+--- !u!114 &6491492929642726130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 237143343148924340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb1f7fdb07f1e84982391e2c1bc35e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemObject
+  itemData: {fileID: 11400000, guid: df4ba2b4f66d79543bf448c04dd99d51, type: 2}
+--- !u!60 &7482017755738558615
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -132,7 +164,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.26, y: 0.58}
+    oldSize: {x: 0.53, y: 0.59}
     newSize: {x: 0.26, y: 0.58}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -140,52 +172,39 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 0.13, y: 0.03}
-      - {x: 0.13, y: 0.25}
-      - {x: 0.089999996, y: 0.29}
-      - {x: -0.13, y: 0.29}
-      - {x: -0.13, y: -0.19}
-      - {x: -0.11, y: -0.29}
-      - {x: 0.08, y: -0.29}
-      - {x: 0.12, y: -0.26999998}
-      - {x: 0.12, y: -0.14}
-      - {x: 0.089999996, y: -0.13}
-    - - {x: -0.03, y: 0.17}
-      - {x: -0.02, y: 0.17999999}
-      - {x: 0.01, y: 0.19}
-      - {x: 0.02, y: 0.17999999}
-      - {x: 0.03, y: 0.14999999}
-      - {x: 0.02, y: 0.13}
+    - - {x: 0.031072132, y: -0.1381202}
+      - {x: 0.03550417, y: -0.0008432418}
+      - {x: 0.048507523, y: -0.0032347403}
+      - {x: 0.05277171, y: 0.0479426}
+      - {x: 0.090646625, y: 0.07879824}
+      - {x: 0.11779577, y: 0.11723752}
+      - {x: 0.11919068, y: 0.19538286}
+      - {x: 0.096943095, y: 0.24055514}
+      - {x: 0.0585173, y: 0.27583253}
+      - {x: 0.025880963, y: 0.2907398}
+      - {x: -0.04186138, y: 0.29195255}
+      - {x: -0.055690296, y: 0.28127363}
+      - {x: -0.09851762, y: 0.2522208}
+      - {x: -0.136031, y: 0.1993031}
+      - {x: -0.13488784, y: 0.13886939}
+      - {x: -0.11560583, y: 0.09583326}
+      - {x: -0.0824008, y: 0.04865659}
+      - {x: -0.05428839, y: 0.037297048}
+      - {x: -0.06307682, y: -0.0014046412}
+      - {x: -0.039495636, y: -0.008880173}
+      - {x: -0.038523562, y: -0.24695693}
+      - {x: -0.042686813, y: -0.2813702}
+      - {x: 0.016463429, y: -0.28392842}
+      - {x: 0.035924356, y: -0.25379536}
+      - {x: 0.0932399, y: -0.26055512}
+      - {x: 0.09015416, y: -0.20472163}
+      - {x: 0.09481377, y: -0.17777917}
+      - {x: 0.09629647, y: -0.14259294}
+    - - {x: -0.046167, y: 0.13766567}
+      - {x: -0.05053792, y: 0.19616699}
+      - {x: -0.00796341, y: 0.21694511}
+      - {x: 0.036167003, y: 0.19975981}
+      - {x: 0.047722965, y: 0.1601306}
+      - {x: 0.021018295, y: 0.12305488}
+      - {x: -0.024908524, y: 0.1174258}
   m_UseDelaunayMesh: 1
---- !u!114 &9088513535429497922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 237143343148924340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb8780c2a1654754f94bd89541eeedfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::EchoHitOutline
-  outlineLength: 1.5
-  outlinePoints: 40
-  outlineWidth: 0.05
-  holdDuration: 1.2
-  fadeDuration: 0.5
-  outlineColor: {r: 0, g: 1, b: 1, a: 1}
-  showFullOutline: 1
---- !u!114 &6491492929642726130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 237143343148924340}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb1f7fdb07f1e84982391e2c1bc35e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemObject
-  itemData: {fileID: 0}

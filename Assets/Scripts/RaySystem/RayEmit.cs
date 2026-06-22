@@ -4,6 +4,8 @@ using System.Collections.Generic;
 
 public class RayEmit : MonoBehaviour
 {
+    public static RayEmit instance;
+
     [Header("Ray Angles & Ray Counts")]
     [Tooltip("마우스 방향 기준 양쪽으로 퍼지는 각도 (총 범위 = halfAngle * 2)")]
     [SerializeField] private float halfAngle = 15f;
@@ -56,7 +58,15 @@ public class RayEmit : MonoBehaviour
 
     private void Awake()
     {
+        if(instance ==null) { instance = this; }
+        else
+        {
+            Destroy(this);
+        }
         mainCamera = Camera.main;
+        rayCount += PlayerStateList.rayUpgrade;
+        raySpeed = raySpeed + (5f * PlayerStateList.raySpeedUpgrade);
+        Debug.Log(PlayerStateList.rayUpgrade);
     }
 
     private void Update()
@@ -326,6 +336,11 @@ public class RayEmit : MonoBehaviour
             Gizmos.DrawLine(origin, origin + dir * maxDistance);
         }
     }
-
+    public void AddRay()
+    {
+        
+        rayCount += 2f;
+        //halfAngle = 30f / (float)(rayCount - 1);
+    }
     private void OnDestroy() => ClearAllLines();
 }

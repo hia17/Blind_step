@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4733136128564181037
+--- !u!1 &2960028314988400489
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,40 +8,54 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1388954898031225692}
-  - component: {fileID: 5833404528591033184}
-  - component: {fileID: 3624149461695899621}
-  - component: {fileID: 3322933861013778893}
+  - component: {fileID: 10510601096847457}
+  - component: {fileID: 886169274641143973}
+  - component: {fileID: 3705533610828009163}
+  - component: {fileID: 6808590248939298648}
+  - component: {fileID: 6851136779120686949}
   m_Layer: 8
-  m_Name: OldKey
+  m_Name: stickRayUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1388954898031225692
+--- !u!4 &10510601096847457
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4733136128564181037}
+  m_GameObject: {fileID: 2960028314988400489}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -5.68, y: -0.03, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
-  m_ConstrainProportionsScale: 1
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.8078, y: -2.62929, z: 0}
+  m_LocalScale: {x: 2.4, y: 2.4, z: 2.4}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5833404528591033184
+--- !u!114 &886169274641143973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2960028314988400489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bb1f7fdb07f1e84982391e2c1bc35e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ItemObject
+  itemData: {fileID: 11400000, guid: 01460cc29a5f14748a6dbb00f07f02da, type: 2}
+--- !u!212 &3705533610828009163
 SpriteRenderer:
   serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4733136128564181037}
+  m_GameObject: {fileID: 2960028314988400489}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -83,23 +97,23 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 2485089579581845756, guid: d90b665622836b64e924d27f7dcce7f9, type: 3}
+  m_Sprite: {fileID: 451563367631509601, guid: 566a4f1d0ef4bca4b898bb30935200a5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.3, y: 0.63}
+  m_Size: {x: 0.53, y: 0.6}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
---- !u!60 &3624149461695899621
+--- !u!60 &6808590248939298648
 PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4733136128564181037}
+  m_GameObject: {fileID: 2960028314988400489}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -131,42 +145,57 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.3, y: 0.63}
-    newSize: {x: 0.3, y: 0.63}
+    oldSize: {x: 0.53, y: 0.6}
+    newSize: {x: 0.53, y: 0.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.065064624, y: 0.30808687}
-      - {x: -0.14481519, y: 0.23142326}
-      - {x: -0.14369087, y: 0.09876479}
-      - {x: -0.077412024, y: 0.049436353}
-      - {x: -0.075021066, y: -0.013928242}
-      - {x: -0.062405545, y: -0.02081536}
-      - {x: -0.057781808, y: -0.2525323}
-      - {x: -0.008151591, y: -0.30808687}
-      - {x: 0.01987981, y: -0.30463028}
-      - {x: 0.06578941, y: -0.25808406}
-      - {x: 0.05840102, y: -0.013031319}
-      - {x: 0.07664111, y: -0.016053721}
-      - {x: 0.07080304, y: 0.037803702}
-      - {x: 0.086779624, y: 0.041030437}
-      - {x: 0.14260295, y: 0.10765838}
-      - {x: 0.1465434, y: 0.22907574}
-      - {x: 0.06234742, y: 0.30463028}
+    - - {x: 0.014183998, y: 0.28085256}
+      - {x: -0.006717682, y: 0.2701273}
+      - {x: -0.03258484, y: 0.24569061}
+      - {x: -0.048550792, y: 0.22149964}
+      - {x: -0.04589367, y: -0.22626948}
+      - {x: -0.057047844, y: -0.22993922}
+      - {x: -0.056939125, y: -0.2691667}
+      - {x: -0.045521736, y: -0.2704456}
+      - {x: -0.046039768, y: -0.2837167}
+      - {x: 0.006129875, y: -0.2813318}
+      - {x: 0.0061191916, y: -0.26888946}
+      - {x: 0.016145706, y: -0.26987362}
+      - {x: 0.016674995, y: -0.22844887}
+      - {x: 0.0049324036, y: -0.22985625}
+      - {x: 0.006106645, y: 0.18821537}
+      - {x: 0.026721954, y: 0.21648026}
+      - {x: 0.061901093, y: 0.21947455}
+      - {x: 0.072574615, y: 0.20749879}
+      - {x: 0.073334694, y: 0.1700952}
+      - {x: 0.07289791, y: 0.14737844}
+      - {x: 0.08579826, y: 0.13822627}
+      - {x: 0.113967896, y: 0.13764572}
+      - {x: 0.1351881, y: 0.16017413}
+      - {x: 0.13750362, y: 0.21966577}
+      - {x: 0.09681252, y: 0.26842502}
+      - {x: 0.07569744, y: 0.28169373}
   m_UseDelaunayMesh: 1
---- !u!114 &3322933861013778893
+--- !u!114 &6851136779120686949
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4733136128564181037}
+  m_GameObject: {fileID: 2960028314988400489}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb1f7fdb07f1e84982391e2c1bc35e7, type: 3}
+  m_Script: {fileID: 11500000, guid: cb8780c2a1654754f94bd89541eeedfc, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ItemObject
-  itemData: {fileID: 11400000, guid: 48c1aadab0d3f774cbb13e62db6abe33, type: 2}
+  m_EditorClassIdentifier: Assembly-CSharp::EchoHitOutline
+  outlineLength: 1.5
+  outlinePoints: 40
+  outlineWidth: 0.05
+  holdDuration: 1.2
+  fadeDuration: 0.5
+  outlineColor: {r: 0, g: 1, b: 1, a: 1}
+  showFullOutline: 1

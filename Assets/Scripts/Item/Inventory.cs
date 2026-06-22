@@ -81,6 +81,8 @@ public class Inventory : MonoBehaviour
         else if (data.itemType == ItemData.ItemType.stick)
         {
             Debug.Log($"Used {data.itemName}, it was a stick!");
+            RayEmit.instance.AddRay();
+            items.RemoveAt(index);
         }
         else if (data.itemType == ItemData.ItemType.key)
         {
@@ -95,6 +97,7 @@ public class Inventory : MonoBehaviour
         {
             return;
         }
+       
 
         //items.RemoveAt(index);
         OnInventoryChanged?.Invoke();

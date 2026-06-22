@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af8bf4daea14cb4a8d4496c3ba576bb, type: 3}
+  m_Name: Stick
+  m_EditorClassIdentifier: Assembly-CSharp::ItemData
+  itemName: "\uCCA0\uC81C \uC190\uC7A1\uC774"
+  icon: {fileID: 451563367631509601, guid: 566a4f1d0ef4bca4b898bb30935200a5, type: 3}
+  worldPrefab: {fileID: 2960028314988400489, guid: ab4b4b9700e6ed342ac4914fefbd8a95, type: 3}
+  itemType: 2
+  keyID: 
+  description: "\uC0AC\uC6A9 \uC2DC \uD30C\uD615\uC774 \uC99D\uAC00\uD55C\uB2E4."
+  healAmount: 0
+  buffTime: 0

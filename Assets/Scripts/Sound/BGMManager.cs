@@ -34,7 +34,24 @@ public class BGMManager : MonoBehaviour
     {
         FadeTo(watcherBGM);
     }
+    public void FadeOutVolume()
+    {
+        StartCoroutine(FadeOut());
+    }
+    private IEnumerator FadeOut()
+    {
+        float startVolume = audioSource.volume;
+        float elapsed = 0f;
 
+        while (elapsed < 2f)
+        {
+            elapsed += Time.deltaTime;
+            audioSource.volume = Mathf.Lerp(startVolume, 0f, elapsed / fadeDuration);
+            yield return null;
+        }
+
+        audioSource.volume = 0f;
+    }
     private void FadeTo(AudioClip nextClip)
     {
         if (nextClip == null) return;

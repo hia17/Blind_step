@@ -4,18 +4,14 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    [Header("시작 버튼 설정")]
-    public string targetSceneName = "1FTo2F_New"; // 시작 버튼 누를 때 넘어갈 씬 이름
+
 
     private bool isFading = false;
 
     // ★ 시작 버튼(StartBtn)을 클릭했을 때 실행될 함수
     public void StartGame()
     {
-        if (!isFading)
-        {
-            StartCoroutine(FadeAndLoadRoutine(targetSceneName));
-        }
+      
     }
 
     // ★ 추가됨: 유니티 버튼에서 씬 이름을 직접 입력해서 이동할 수 있게 해주는 만능 함수

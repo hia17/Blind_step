@@ -14,7 +14,7 @@ public class UpgradeManager : MonoBehaviour
     private void Start()
     {
         // 현재 보유한 포인트를 불러옵니다. (테스트용으로 기본값 10을 줬습니다)
-        currentPoints = PlayerPrefs.GetInt("UpgradePoints", 10);
+        currentPoints = PlayerPrefs.GetInt("UpgradePoints", 5);
         UpdateUI();
     }
 
@@ -24,6 +24,7 @@ public class UpgradeManager : MonoBehaviour
         if (currentPoints > 0)
         {
             currentPoints--;
+            PlayerStateList.healthUpgrade++;
             int level = PlayerPrefs.GetInt("StaminaLevel", 0) + 1;
             PlayerPrefs.SetInt("StaminaLevel", level);
             SavePoints();
@@ -36,6 +37,7 @@ public class UpgradeManager : MonoBehaviour
         if (currentPoints > 0)
         {
             currentPoints--;
+            PlayerStateList.rayUpgrade++;
             int level = PlayerPrefs.GetInt("WaveCountLevel", 0) + 1;
             PlayerPrefs.SetInt("WaveCountLevel", level);
             SavePoints();
@@ -48,6 +50,7 @@ public class UpgradeManager : MonoBehaviour
         if (currentPoints > 0)
         {
             currentPoints--;
+            PlayerStateList.raySpeedUpgrade++;
             int level = PlayerPrefs.GetInt("WaveSpeedLevel", 0) + 1;
             PlayerPrefs.SetInt("WaveSpeedLevel", level);
             SavePoints();
@@ -76,7 +79,9 @@ public class UpgradeManager : MonoBehaviour
         int spentPoints = PlayerPrefs.GetInt("StaminaLevel", 0) +
                           PlayerPrefs.GetInt("WaveCountLevel", 0) +
                           PlayerPrefs.GetInt("WaveSpeedLevel", 0);
-
+        PlayerStateList.healthUpgrade = 0;
+        PlayerStateList.raySpeedUpgrade = 0;
+        PlayerStateList.rayUpgrade = 0;
         currentPoints += spentPoints;
 
         // 2. 모든 능력치 레벨을 0으로 초기화합니다.

@@ -24,6 +24,7 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
+        maxHealth = maxHealth + (10f * PlayerStateList.healthUpgrade);
         currentHealth = maxHealth;
         UpdateHealthUI(); // 시작할 때 체력바 꽉 채우기
     }
