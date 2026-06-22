@@ -11,7 +11,7 @@ public class InventoryUI : MonoBehaviour
         slots = new InventorySlot[icons.Length];
         for (int i = 0; i < icons.Length; i++)
         {
-            slots[i] = icons[i].gameObject.AddComponent<InventorySlot>();
+            slots[i] = icons[i].GetComponent<InventorySlot>();
         }
 
         Inventory.Instance.OnInventoryChanged += RefreshUI;
